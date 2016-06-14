@@ -1,0 +1,31 @@
+<html>
+	<head>
+		<script src="processing.js"></script>
+		<script src="settings.js"></script>
+		<script src="mover.js"></script>
+		<script src="enemy.js"></script>
+		<script src="weapon.js"></script>
+		<script src="button.js"></script>
+		<script src="board.js"></script>
+		<script src="status.js"></script>
+		<script src="control.js"></script>
+		<script src="result.js"></script>
+		<script src="scene.js"></script>
+		<style>
+			canvas {
+				padding: 0;
+				margin: auto;
+				display: block;
+				width: 800px;
+			}
+		</style>
+	</head>
+	<body>
+		<p><canvas id="canvas1" width="400" height="400"></canvas></p>
+		
+		<script>
+			var canvas = document.getElementById("canvas1");
+			var p = new Processing(canvas, scene);
+		</script>
+	</body>
+</html>
