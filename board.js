@@ -27,7 +27,7 @@ Board.prototype.draw = function(processing) {
 	processing.translate(this.x_offset, this.y_offset);
 	
 	//draw board
-	processing.fill(100, 100, 100);
+	processing.fill(50, 150, 50);
 	for(var x = 0; x < this.col; x++) {
 		for(var y = 0; y < this.row;y++) {
 			processing.rect(x * this.tile_size, y * this.tile_size, this.tile_size, this.tile_size);
@@ -35,25 +35,24 @@ Board.prototype.draw = function(processing) {
 	}
 	
 	//draw paths
-	processing.fill(0, 100, 0);
-	for(var i = 0; i < this.paths.length; i++) {
+	processing.fill(100, 100, 100);
+	for(var i = 0; i < this.paths.length - 0; i++) {
 		processing.rect(this.paths[i][0] * this.tile_size, this.paths[i][1] * this.tile_size, this.tile_size, this.tile_size);
 	}
 	
 	//draw build square
 	if(battleData.isBuilding) {
-		var px = processing.floor((processing.mouseX - this.x_offset)/this.tile_size);
-		var py = processing.floor((processing.mouseY - this.y_offset)/this.tile_size);
+		var px = Math.floor((processing.mouseX - this.x_offset)/this.tile_size);
+		var py = Math.floor((processing.mouseY - this.y_offset)/this.tile_size);
 		
 		processing.stroke(255, 0, 0);
-		processing.fill(0, 0, 0, 0);
 		processing.strokeWeight(4);
+		processing.fill(0, 0, 0, 0);
 		processing.rect(px * this.tile_size, py * this.tile_size, this.tile_size, this.tile_size);
 	}
 	else if(battleData.isUpdating) {
-		var px = processing.floor((battleData.weaponSelected.x /*- this.x_offset*/)/this.tile_size);
-		var py = processing.floor((battleData.weaponSelected.y /*- this.y_offset*/)/this.tile_size);
-		//processing.noLoop();
+		var px = Math.floor(battleData.weaponSelected.x / this.tile_size);
+		var py = Math.floor(battleData.weaponSelected.y / this.tile_size);
 		
 		processing.stroke(255, 0, 0);
 		processing.fill(0, 0, 0, 0);
@@ -106,7 +105,7 @@ Board.prototype.draw = function(processing) {
 					if(shot.domain === "all" || shot.domain === this.enemies[j].domain) {
 						if(this.enemies[j].isColliding(shot) === true) { //enemy's shot successfully
 							var explosion = shot.getExplosion();
-							if(explosion !== null) {
+							if(explosion !== null) { //check if the shot causes splash explosion
 								this.explosions.push(explosion);
 							}
 							//strike = true;
@@ -138,6 +137,7 @@ Board.prototype.draw = function(processing) {
 			//target enemies
 			var max_step = -1; //keep track of the most advancing enemy in sight
 			var target;
+			var readyToShoot = battleData.time - this.defense[i].lastShot >= this.defense[i].reload_time;
 			for(var j = 0; j < this.enemies.length; j++) {
 				if(this.defense[i].distance(this.enemies[j]) <= this.defense[i].range) {
 					if(this.defense[i].target_mode === "single" && this.enemies[j].step > max_step) {
@@ -145,12 +145,13 @@ Board.prototype.draw = function(processing) {
 						target = this.enemies[j];
 						this.defense[i].target(this.enemies[j]); //target the detected enemy
 					}
-					else if(this.defense[i].target_mode === "multiple") {
+					else if(this.defense[i].target_mode === "multiple" && readyToShoot) {
 						max_step = this.enemies[j].step;
 						target = this.enemies[j];
 						this.defense[i].target(this.enemies[j]); //target the detected enemy
 					}
-					else if(this.defense[i].target_mode === "all") {
+					else if(this.defense[i].target_mode === "all" && readyToShoot) {
+					//else if(readyToShoot) { //for multiple targeting or all targeting weapons, target enemy only if ready to shoot
 						max_step = this.enemies[j].step;
 						target = this.enemies[j];
 						this.defense[i].target(this.enemies[j]); //target the detected enemy
@@ -159,7 +160,7 @@ Board.prototype.draw = function(processing) {
 			}
 			
 			//if found target and reload time is completed, then shoot
-			if(battleData.time - this.defense[i].lastShot >= this.defense[i].reload_time) {
+			if(readyToShoot) {
 				if(this.defense[i].target_mode === "all" && max_step !== -1) { //emitting explosion
 					this.explosions.push(this.defense[i].attack(target));
 					this.defense[i].lastShot = battleData.time;
@@ -167,13 +168,13 @@ Board.prototype.draw = function(processing) {
 				else if(this.defense[i].target_mode === "single" && max_step !== -1) {
 					var shot = this.defense[i].attack(target);
 					if(shot !== null) {
-						this.shots.push(this.defense[i].attack(target));
+						this.shots.push(this.defense[i].attack(target)); //attack a target
 						this.defense[i].lastShot = battleData.time;
 					}
 				}
 				else if(this.defense[i].target_mode === "multiple" && max_step !== -1) {
 					var shot = this.defense[i].attack(target);
-					while(shot !== null) {
+					while(shot !== null) { //attack multiple targets
 						this.shots.push(shot);
 						shot = this.defense[i].attack(target);
 					}
@@ -197,7 +198,7 @@ Board.prototype.draw = function(processing) {
 		
 		explosion.draw(processing);
 		
-		if(explosion.r >= explosion.dr) {
+		if(explosion.r >= explosion.dr) { //explosion damage only takes effect at the end of animation
 			for(var j = this.enemies.length - 1; j >= 0; j--) {
 				var enemy = this.enemies[j];
 				
@@ -233,26 +234,10 @@ Board.prototype.addDefense = function(mouseX, mouseY) { //add defense unit on th
 	
 	for(var i = 0; i < this.defense.length; i++) {
 		var weapon = this.defense[i];
-		if(weapon.x === tx && weapon.y === ty) { //cannot build on top existing defense
+		if(weapon.x === tx && weapon.y === ty) { //cannot build on top of existing defense
 			return false;
 		}
 	}
-	
-	/*var defenseUnit;
-	if(battleData.weaponSelected === "Turret") {
-		defenseUnit = new Turret(tx, ty);
-	}
-	else if(battleData.weaponSelected === "Cannon") {
-		defenseUnit = new Cannon(tx, ty);
-	}
-	else if(battleData.weaponSelected === "Laser") {
-		defenseUnit = new Laser(tx, ty);
-	}
-	else if(battleData.weaponSelected === "Paralyzer") {
-		defenseUnit = new Paralyzer(tx, ty);
-	}
-	
-	this.defense.push(defenseUnit);*/
 	
 	var weapon = battleData.weaponSelected.get();
 	this.defense.push(new weapon(tx, ty));

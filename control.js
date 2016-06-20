@@ -135,6 +135,7 @@ Control.prototype.isMouseInside = function(mouseX, mouseY) {
 
 Control.prototype.restart = function() {
 	this.pause_button.image.type = "play";
+	this.speed_button.image.type = "fast";
 	
 	this.weapons.splice(0, this.weapons.length);
 	var button_x = 50;

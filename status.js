@@ -91,7 +91,8 @@ var StatusPanel = function(x, y, width, height) {
 	this.width = width;
 	this.height = height;
 	
-	this.wave_button = new Button (780, this.height/2, 30, 30, "Wave", new IconImage("wave"));
+	this.wave_button = new Button (700, this.height/2, 30, 30, "Wave", new IconImage("wave"));
+	this.setting_button = new Button (770, this.height/2, 30, 30, "Settings", new IconImage("settings"));
 };
 
 StatusPanel.prototype.draw = function(processing) {
@@ -103,6 +104,7 @@ StatusPanel.prototype.draw = function(processing) {
 	processing.rect(0, 0, this.width, this.height);
 	
 	this.wave_button.draw(processing);
+	this.setting_button.draw(processing);
 	
 	processing.popMatrix();
 };

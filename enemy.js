@@ -19,6 +19,7 @@ var Enemy = function(x, y, data) { //parameters: location and enemy's informatio
 	this.exp = data.exp;
 	this.damage = 0; //keep track of the damage taken
 	
+	this.restitution = 1.0;
 	this.freeze_ctr = 0;
 	this.for_display = false;
 };
@@ -50,31 +51,30 @@ Enemy.prototype.update = function() {
 	this.px = this.x;
 	this.py = this.y;
 	
-	var restitution = 1.0;
-	if(this.freeze_ctr > 0) {
-		restitution = 0.5;
-	}
-	
 	//move x
-	if( Math.abs(this.dest_x - this.x) < Math.abs(this.vx * restitution * battleData.speed) ) { //destination x is too close
+	if( Math.abs(this.dest_x - this.x) < Math.abs(this.vx * this.restitution * battleData.speed) ) { //destination x is too close
 		this.x = this.dest_x;
 		this.vx = 0;
 	}
 	else {
-		this.x += this.vx * restitution * battleData.speed;
+		this.x += this.vx * this.restitution * battleData.speed;
 	}
 	
 	//move y
-	if( Math.abs(this.dest_y - this.y) < Math.abs(this.vy * restitution * battleData.speed) ) { //destination y is too close
+	if( Math.abs(this.dest_y - this.y) < Math.abs(this.vy * this.restitution * battleData.speed) ) { //destination y is too close
 		this.y = this.dest_y;
 		this.vy = 0;
 	}
 	else {
-		this.y += this.vy * restitution * battleData.speed;
+		this.y += this.vy * this.restitution * battleData.speed;
 	}
 	
 	if(this.freeze_ctr > 0) {
 		this.freeze_ctr -= battleData.speed;
+		
+		if(this.freeze_ctr <= 0) { //no longer freezing, back to normal speed
+			this.restitution = 1.0;
+		}
 	}
 };
 
@@ -103,6 +103,7 @@ Enemy.prototype.drawHealth = function(processing) { //draw HP bar on top of the 
 
 Enemy.prototype.freeze = function(power) {
 	this.freeze_ctr = 300 * power;
+	this.restitution = 0.5;
 };
 
 /*
@@ -139,10 +140,10 @@ Quadrone.prototype.draw = function(processing) {
 	processing.triangle(-2, 13, 3, 13, 0, 15 + this.leg_offset);
 	
 	processing.rotate(-150);
-	processing.ellipse(0, 0, 20, 20);
-	//processing.noStroke();
+	processing.ellipse(0, 0, 20, 20); //body
+	
 	processing.fill(200, 0, 0);
-	processing.ellipse(6, 0, 4, 8);
+	processing.ellipse(6, 0, 4, 8); //eye
 	
 	processing.rotate(-this.angle);
 	this.drawHealth(processing);
@@ -153,11 +154,7 @@ Quadrone.prototype.draw = function(processing) {
 Quadrone.prototype.update = function() {
 	Enemy.prototype.update.call(this);
 	
-	var restitution = 1.0;
-	if(this.freeze_ctr > 0) {
-		restitution = 0.5;
-	}
-	this.leg_offset += this.leg_speed * restitution * battleData.speed;
+	this.leg_offset += this.leg_speed * this.restitution * battleData.speed;
 	if(this.leg_offset >= 2) {
 		this.leg_speed = -0.1;
 	}
@@ -203,7 +200,7 @@ Hovercraft.prototype.draw = function(processing) {
 	processing.rect(-18, 1, 3, 4, 2);
 	
 	processing.ellipse(-9, 0, 16, 13); //back body
-	processing.fill(0, 0, 0);
+	processing.fill(50, 50, 50);
 	processing.ellipse(7, 0, 12, 10); //front body
 	processing.fill(200, 200, 200);
 	processing.noStroke();
@@ -251,24 +248,15 @@ SteelTank.prototype.draw = function(processing) {
 	processing.rotate(this.angle);
 	
 	processing.fill(110, 123, 139);
-	//processing.rect(-10, -10, 20, 20);
-	//processing.rect(0, -3, 15, 6);
-	//processing.rect(-5, -5, 10, 10);
-	
-	processing.rect(-10, -4, 16, 8);
+	processing.rect(-10, -4, 16, 8); //body parts
 	processing.rect(-10, -8, 20, 5, 3);
 	processing.rect(-10, 4, 20, 5, 3);
 	
-	/*processing.line(4, -8, 4, -3);
-	processing.line(4, 5, 4, 9);
-	processing.line(7, -8, 7, -3);
-	processing.line(7, 5, 7, 9);*/
+	processing.rotate(Math.PI/4);
+	processing.rect(-4, -4, 8, 8); //turret rotor
+	processing.rotate(-Math.PI/4);
 	
-	processing.rotate(0.25 * 3.14);
-	processing.rect(-4, -4, 8, 8);
-	processing.rotate(-0.25 * 3.14);
-	
-	processing.rect(-6, -1, 22, 3, 2);
+	processing.rect(-6, -1, 22, 3, 2); //turret
 	
 	processing.rotate(-this.angle);
 	this.drawHealth(processing);
@@ -305,21 +293,15 @@ MagmaTank.prototype.draw = function(processing) {
 	processing.rotate(this.angle);
 	
 	processing.fill(220, 20, 60);
-	
-	processing.rect(-10, -4, 16, 8);
+	processing.rect(-10, -4, 16, 8); //body parts
 	processing.rect(-10, -8, 20, 5, 3);
 	processing.rect(-10, 4, 20, 5, 3);
 	
-	/*processing.line(4, -8, 4, -3);
-	processing.line(4, 5, 4, 9);
-	processing.line(7, -8, 7, -3);
-	processing.line(7, 5, 7, 9);*/
+	processing.rotate(Math.PI/4);
+	processing.rect(-4, -4, 8, 8); //turret rotor
+	processing.rotate(-Math.PI/4);
 	
-	processing.rotate(0.25 * 3.14);
-	processing.rect(-4, -4, 8, 8);
-	processing.rotate(-0.25 * 3.14);
-	
-	processing.rect(-6, -1, 22, 3, 2);
+	processing.rect(-6, -1, 22, 3, 2); //turret
 	
 	processing.rotate(-this.angle);
 	this.drawHealth(processing);
@@ -329,6 +311,7 @@ MagmaTank.prototype.draw = function(processing) {
 
 MagmaTank.prototype.freeze = function(power) {
 	this.freeze_ctr = 20;
+	this.restitution = 1.0;
 };
 
 MagmaTank.prototype.get = function() {
@@ -360,11 +343,11 @@ EagleJet.prototype.draw = function(processing) {
 	
 	processing.fill(150, 200, 200);
 	
-	processing.triangle(5, 0, -10, 10, -10, -10); //body
-	processing.triangle(13, 0, 0, -4, 0, 4);
+	processing.triangle(5, 0, -10, 10, -10, -10); //wing
+	processing.triangle(13, 0, 0, -4, 0, 4);//main body
 	processing.rect(-13, -4, 13, 7, 3);
 	processing.noStroke();
-	processing.rect(-12, -3, 13, 5);
+	processing.rect(-12, -3, 13, 5); //backbone
 	processing.stroke(stroke);
 	processing.line(-13, 0, -5, 0);
 	processing.line(-5, 0, 0, -3);
@@ -373,10 +356,10 @@ EagleJet.prototype.draw = function(processing) {
 	processing.line(-10, -4, -10, 4);
 	
 	processing.fill(0, 0, 0);
-	processing.ellipse(2, 0, 5, 2);
+	processing.ellipse(2, 0, 5, 2); //cockpit
 	processing.noStroke();
 	processing.fill(200, 0, 0);
-	processing.triangle(13, 0, 6, -2, 6, 2);
+	processing.triangle(13, 0, 6, -2, 6, 2); //decorations
 	processing.triangle(-10, -10, -10, -7, -7, -8);
 	processing.triangle(-10, 10, -10, 7, -7, 8);
 	
@@ -426,7 +409,7 @@ SonicRocket.prototype.draw = function(processing) {
 	processing.stroke(stroke);
 	processing.line(-15, -6, -3, -6);
 	processing.line(-15, 6, -3, 6);
-	processing.ellipse(-2, 0, 3, 10/*, Math.PI/2, Math.PI*3/2*/);
+	processing.ellipse(-2, 0, 3, 10);
 	processing.noStroke();
 	processing.rect(-2, -4, 2, 8);
 	processing.stroke(stroke);
@@ -434,9 +417,9 @@ SonicRocket.prototype.draw = function(processing) {
 	processing.triangle(-12, 4, -5, 4, -14, 12);
 	
 	processing.fill(50, 50, 50);
-	processing.arc(8, 0, 13, 9, -Math.PI*4.5/10, Math.PI*4.5/10);
+	processing.arc(8, 0, 13, 9, -Math.PI*0.45, Math.PI*0.45);
 	processing.noFill();
-	processing.arc(10, 0, 4, 9, Math.PI*5.5/10, Math.PI*15.5/10);
+	processing.arc(10, 0, 4, 9, Math.PI*0.55, Math.PI*1.55);
 	
 	processing.rotate(-this.angle);
 	this.drawHealth(processing);
