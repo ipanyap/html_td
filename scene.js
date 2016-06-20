@@ -1,6 +1,6 @@
 
 var Stage = [
-	{
+	{ //stage 1
 		row : 13,
 		col : 20,
 		paths : [
@@ -27,7 +27,7 @@ var Stage = [
 			]
 		]
 	},
-	{
+	{ //stage 2
 		row : 16,
 		col : 20,
 		paths : [
@@ -59,6 +59,170 @@ var Stage = [
 				{ enemy: Quadrone, amount: 5 }
 			]
 		]
+	},
+	{ //stage 3
+		row : 18,
+		col : 20,
+		paths : [
+			[-1, 6], [0, 6], [1, 6], [2, 6], [2, 5], [2, 4], [2, 3], [2, 2],
+			[3, 2], [4, 2], [5, 2], [6, 2], [7, 2], [8, 2], [9, 2], [9, 3],
+			[10, 3], [11, 3], [11, 4], [11, 5], [11, 6], [12, 6], [13, 6], [14, 6],
+			[14, 7], [14, 8], [14, 9], [14, 10], [14, 11], [13, 11], [12, 11],
+			[11, 11], [11, 12], [11, 13], [11, 14], [10, 14], [9, 14], [9, 15],
+			[8, 15], [7, 15], [6, 15], [5, 15], [4, 15], [3, 15], [2, 15], [2, 14],
+			[2, 13], [2, 12], [2, 11], [1, 11], [0, 11], [-1, 11]
+		],
+		waves : [
+			[
+				{ enemy: Hovercraft, amount : 5 },
+				{ enemy: SteelTank, amount : 5 },
+			],
+			[
+				{ enemy: SteelTank, amount : 5 },
+				{ enemy: EagleJet, amount : 3 }
+			],
+			[
+				{ enemy: SteelTank, amount : 10 },
+				{ enemy: Hovercraft, amount : 5 },
+				{ enemy: EagleJet, amount : 3 }
+			],
+			[
+				{ enemy: Hovercraft, amount : 5 },
+				{ enemy: EagleJet, amount : 5 }
+			]
+		]
+	},
+	{ //stage 4
+		row : 15,
+		col : 22,
+		paths : [
+			[-1, 12], [0, 12], [1, 12], [2, 12], [3, 12], [4, 12], [4, 11], [4, 10], [4, 9],
+			[4, 8], [5, 8], [6, 8], [7, 8], [7, 7], [7, 6], [7, 5], [7, 4], [7, 3], [7, 2],
+			[8, 2], [9, 2], [10, 2], [11, 2], [12, 2], [13, 2], [14, 2], [15, 2], [16, 2],
+			[17, 2], [18, 2], [18, 3], [18, 4], [18, 5], [18, 6], [18, 7], [17, 7], [16, 7],
+			[15, 7], [15, 8], [15, 9], [15, 10], [14, 10], [13, 10], [13, 11], [13, 12], [13, 13],
+			[13, 14], [13, 15]
+		],
+		waves : [
+			[
+				{ enemy: Hovercraft, amount : 10 },
+				{ enemy: EagleJet, amount : 5 }
+			],
+			[
+				{ enemy: SteelTank, amount : 3 },
+				{ enemy: Hovercraft, amount : 5 },
+				{ enemy: EagleJet, amount : 3 },
+				{ enemy: SteelTank, amount : 3 }
+			],
+			[
+				{ enemy: SteelTank, amount : 5 },
+				{ enemy: EagleJet, amount : 5 },
+				{ enemy: SonicRocket, amount : 3 }
+			]
+		]
+	},
+	{ //stage 5
+		row : 19,
+		col : 20,
+		paths : [
+			[-1, 17], [0, 17], [1, 17], [2, 17], [2, 16], [2, 15], [2, 14], [2, 13], [3, 13],
+			[4, 13], [5, 13], [5, 14], [5, 15], [5, 16], [5, 17], [6, 17], [7, 17], [8, 17],
+			[8, 16], [8, 15], [8, 14], [8, 13], [8, 12], [8, 11], [8, 10], [8, 9], [8, 8], [8, 7],
+			[8, 6], [8, 5], [8, 4], [8, 3], [8, 2], [9, 2], [10, 2], [11, 2], [12, 2], [13, 2],
+			[14, 2], [15, 2], [16, 2], [16, 3], [16, 4], [16, 5], [16, 6], [16, 7], [16, 8], [16, 9],
+			[17, 9], [18, 9], [19, 9], [20, 9]
+		],
+		waves : [
+			[
+				{ enemy: Hovercraft, amount : 4 },
+				{ enemy: EagleJet, amount : 5 },
+				{ enemy: SteelTank, amount : 5 }
+			],
+			[
+				{ enemy: EagleJet, amount : 5 },
+				{ enemy: SonicRocket, amount : 5 },
+				{ enemy: EagleJet, amount : 5 }
+			],
+			[
+				{ enemy: SteelTank, amount : 5 },
+				{ enemy: MagmaTank, amount : 3 }
+			],
+			[
+				{ enemy: SteelTank, amount : 4 },
+				{ enemy: EagleJet, amount : 4 },
+				{ enemy: MagmaTank, amount : 4},
+				{ enemy: SonicRocket, amount : 4 }
+			]
+		]
+	},
+	{ //stage 6
+		row : 13,
+		col : 20,
+		paths : [
+			[2, 13], [2, 12], [2, 11], [2, 10], [2, 9], [2, 8], [3, 8], [4, 8], [5, 8], [5, 7],
+			[5, 6], [5, 5], [5, 4], [5, 3], [5, 2], [5, 1], [6, 1], [7, 1], [8, 1], [9, 1],
+			[10, 1], [11, 1], [11, 2], [11, 3], [12, 3], [13, 3], [14, 3], [15, 3], [16, 3],
+			[17, 3], [17, 4], [17, 5], [17, 6], [17, 7], [17, 8], [17, 9], [16, 9], [15, 9],
+			[14, 9], [13, 9], [12, 9], [12, 10], [12, 11], [12, 12], [12, 13]
+		],
+		waves : [
+			[
+				{ enemy: Hovercraft, amount : 10 },
+				{ enemy: SteelTank, amount : 5 },
+				{ enemy: EagleJet, amount : 5 }
+			],
+			[
+				{ enemy: SteelTank, amount : 10 },
+				{ enemy: EagleJet, amount : 10 }
+			],
+			[
+				{ enemy: EagleJet, amount : 8 },
+				{ enemy: MagmaTank, amount : 10 }
+			],
+			[
+				{ enemy: EagleJet, amount : 10 },
+				{ enemy: SonicRocket, amount : 8 }
+			],
+			[
+				{ enemy: EagleJet, amount : 5 },
+				{ enemy: SonicRocket, amount : 5 },
+				{ enemy: Phantom, amount : 5 }
+			]
+		]
+	},
+	{ //stage 7
+		row : 13,
+		col : 20,
+		paths : [
+			[-1, 12], [0, 12], [1, 12], [2, 12], [3, 12], [4, 12], [4, 11], [4, 10], [4, 9], [4, 8],
+			[4, 7], [3, 7], [3, 6], [3, 5], [3, 4], [3, 3], [3, 2], [4, 2], [5, 2], [6, 2], [7, 2],
+			[8, 2], [8, 3], [8, 4], [8, 5], [8, 6], [8, 7], [9, 7], [10, 7], [11, 7], [12, 7],
+			[12, 6], [12, 5], [12, 4], [13, 4], [14, 4], [15, 4], [16, 4], [17, 4], [18, 4],
+			[18, 5], [18, 6], [18, 7], [19, 7], [20, 7]
+		],
+		waves : [
+			[
+				{ enemy: Hovercraft, amount : 5 },
+				{ enemy: EagleJet, amount : 5 },
+				{ enemy: SteelTank, amount : 5 }
+			],
+			[
+				{ enemy: EagleJet, amount : 5 },
+				{ enemy: SteelTank, amount : 5 }
+			],
+			[
+				{ enemy: SteelTank, amount : 5 },
+				{ enemy: SonicRocket, amount : 5 }
+			],
+			[
+				{ enemy: SonicRocket, amount : 5 },
+				{ enemy: MagmaTank, amount : 5 }
+			],
+			[
+				{ enemy: MagmaTank, amount : 5 },
+				{ enemy: Phantom, amount : 5 }
+			]
+		]
 	}
 ];
 
@@ -85,17 +249,21 @@ var scene = function(processing) {
 	var info = new InfoDialog(400, 300);
 	var stat = new StatusPanel(0, 0, 800, 40);
 	var formation = new FormationView(600, 240);
+	var menu = new Menu(400, 300);
+	var announcement = new Announcement(400, 300);
 	
 	var isScrolling = false;
 	var enemyIntervalFrame = battleData.time;
 	
 	var screen = "battle"; //which screen to display
+	var startScene = null;
+	var battleScene = null;
 	
 	if(board.width() < w) {
 		board.x_offset = (w - board.width())/2;
 	}
 	if(board.height() < h - control.height - stat.height) {
-		board.y_offset = (h - control.height - board.height())/2 - stat.height;
+		board.y_offset = (h - control.height - board.height() + stat.height)/2;
 	}
 	
 	/*var enemy = new Phantom(400, 300, 0, 0, 0, 0);
@@ -104,8 +272,34 @@ var scene = function(processing) {
 		enemy.draw(processing);
 	};*/
 	
+	startScene = function() {
+		processing.mousePressed = function() {};
+		processing.mouseDragged = function() {};
+		processing.mouseReleased = function() {};
+		
+		processing.mouseClicked = function() {
+			screen = "battle";
+			battleScene();
+			processing.loop();
+		};
+		
+		processing.draw = function() {
+			processing.background(0, 0, 0);
+			
+			processing.fill(250, 250, 250);
+			
+			processing.textSize(100);
+			processing.text("TOWER DEFENSE", 60, 400);
+			
+			processing.textSize(20);
+			processing.text("Touch anywhere to start", 300, 500);
+			
+			processing.noLoop();
+		}
+	};
+	
 	//function which controls the battle scene
-	var battleScene = function() {
+	battleScene = function() {
 	
 		processing.mousePressed = function() {
 			if(battleData.gameOver === true) {
@@ -127,7 +321,7 @@ var scene = function(processing) {
 					board.x_offset += (processing.mouseX - processing.pmouseX);
 					board.x_offset = processing.constrain(board.x_offset, processing.width - (board.col * board.tile_size), 0);
 				}
-				if(board.height () > h - control.height) {
+				if(board.height () > h - control.height - stat.height) {
 					board.y_offset += (processing.mouseY - processing.pmouseY);
 					board.y_offset = processing.constrain(board.y_offset, processing.height - (board.row * board.tile_size) - control.height, 0 + stat.height);
 					//console.log("!");
@@ -148,8 +342,9 @@ var scene = function(processing) {
 					control.restart();
 					enemyIntervalFrame = 0;
 					formation.show = false;
+					processing.loop();
 				}
-				else if(result.buttons[1].isMouseInside(resultX, resultY)) {
+				else if(result.buttons[1].isMouseInside(resultX, resultY) && result.buttons[1].enabled === true) {
 					//next stage
 					if(stage_idx < Stage.length-1) {
 						stage_idx++;
@@ -158,10 +353,54 @@ var scene = function(processing) {
 						battleData.reset();
 						control.restart();
 						enemyIntervalFrame = 0;
+						processing.loop();
+					}
+					else {
+						startScene();
+						processing.loop();
 					}
 				}
 				
 				return; //ignore further processing
+			}
+			
+			//process clicks that happen within menu area
+			if(menu.show === true) {
+				var resultX = processing.mouseX - menu.x;
+				var resultY = processing.mouseY - menu.y;
+				if(menu.buttons[0].isMouseInside(resultX, resultY)) {
+					menu.show = false;
+					processing.loop();
+				}
+				else if(menu.buttons[1].isMouseInside(resultX, resultY)) {
+					battleData.reset();
+					board.restart();
+					gen.restart();
+					control.restart();
+					enemyIntervalFrame = 0;
+					menu.show = false;
+					processing.loop();
+				}
+				else if(menu.buttons[2].isMouseInside(resultX, resultY)) {
+					menu.show = false;
+					
+					startScene();
+					processing.loop();
+				}
+				
+				return; //ignore further processing
+			}
+			
+			if(announcement.show === true) {
+				var aX = processing.mouseX - announcement.x;
+				var aY = processing.mouseY - announcement.y;
+				
+				if(announcement.ok_button.isMouseInside(aX, aY)) {
+					announcement.show = false;
+					processing.loop();
+				}
+				
+				return;
 			}
 			
 			//process clicks that happen within formation view area
@@ -294,6 +533,9 @@ var scene = function(processing) {
 					formation.setData(gen.waves[gen.index]);
 					formation.show = true;
 				}
+				else if(stat.setting_button.isMouseInside(statX, statY)) {
+					menu.show = true;
+				}
 				
 				return; //ignore further processing
 			}
@@ -345,7 +587,15 @@ var scene = function(processing) {
 				battleData.time += battleData.speed;
 			}
 			
+			if(announcementList.length > 0 && announcement.show === false) {
+				announcement.title = announcementList[0].title;
+				announcement.message = announcementList[0].message;
+				announcement.show = true;
+				announcementList.splice(0, 1);
+			}
+			
 			processing.background(102, 123.5, 127.5);
+			//processing.background(100, 100, 100);
 			
 			if(battleData.gameOver === false) {
 				if(battleData.time - enemyIntervalFrame >= 60) { //generate enemy
@@ -356,6 +606,7 @@ var scene = function(processing) {
 							if(success === false) {
 								//win game
 								battleData.gameOver = true;
+								result.buttons[1].enabled = true;
 								result.win = true;
 								board.pause = true;
 								player.exp += battleData.score;
@@ -370,6 +621,7 @@ var scene = function(processing) {
 				
 				if(battleData.hp === 0) {
 					battleData.gameOver = true;
+					result.buttons[1].enabled = false;
 					result.win = false;
 					board.pause = true;
 				}
@@ -383,8 +635,8 @@ var scene = function(processing) {
 			processing.fill(255, 255, 255);
 			processing.text("HP", 50, 20, 50, 50);
 			processing.text(battleData.hp + "/" + player.health, 220, 20, 100, 50);
-			processing.text("$" + player.money, 550, 20, 100, 50);
-			processing.text("Wave " + (gen.index+1) + "/" + gen.waves.length, 650, 20, 150, 50);
+			processing.text("$" + player.money, 500, 20, 100, 50);
+			processing.text("Wave " + (gen.index+1) + "/" + gen.waves.length, 600, 20, 150, 50);
 			processing.text("EXP : " + player.exp, 300, 20, 150, 50);
 			
 			//draw player's HP bar
@@ -402,6 +654,15 @@ var scene = function(processing) {
 			
 			if(battleData.gameOver === true) {
 				result.draw(processing);
+				processing.noLoop();
+			}
+			else if(menu.show == true) {
+				menu.draw(processing);
+				processing.noLoop();
+			}
+			else if(announcement.show == true) {
+				annoucement.draw(processing);
+				processing.noLoop();
 			}
 			else if(info.show === true) {
 				info.draw(processing);
@@ -412,5 +673,5 @@ var scene = function(processing) {
 		}
 	};
 	
-	battleScene();
+	startScene();
 };

@@ -216,4 +216,4 @@ var weaponData = {
 	}
 };
 
-
+var announcementList = [];

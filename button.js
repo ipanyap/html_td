@@ -85,12 +85,29 @@ IconImage.prototype.draw = function(processing) {
 		processing.text("X", 0, 0);
 	}
 	else if(this.type === "fast") {
-		processing.triangle(0, -10, 0, 10, 10, 0);
-		processing.triangle(-8, -10, -8, 10, 2, 0);
+		/*processing.triangle(0, -10, 0, 10, 10, 0);
+		processing.triangle(-8, -10, -8, 10, 2, 0);*/
+		processing.textAlign(processing.CENTER, processing.CENTER);
+		processing.textSize(20);
+		processing.text("1x", 0, 0);
 	}
 	else if(this.type === "slow") {
-		processing.triangle(0, -6, 0, 6, 8, 0);
-		processing.triangle(-6, -6, -6, 6, 2, 0);
+		/*processing.triangle(0, -6, 0, 6, 8, 0);
+		processing.triangle(-6, -6, -6, 6, 2, 0);*/
+		processing.textAlign(processing.CENTER, processing.CENTER);
+		processing.textSize(20);
+		processing.text("2x", 0, 0);
+	}
+	else if(this.type === "settings") {
+		processing.pushMatrix();
+		processing.ellipse(0, 0, 15, 15);
+		for(var i = 0;i < 8; i++) {
+			processing.rotate(Math.PI * i / 4);
+			processing.rect(-10, -2, 20, 4);
+		}
+		processing.fill(0, 0, 0);
+		processing.ellipse(0, 0, 7, 7);
+		processing.popMatrix();
 	}
 	processing.textSize(13);
 	processing.textAlign(processing.CENTER, processing.CENTER);

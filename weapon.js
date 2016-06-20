@@ -71,8 +71,8 @@ FrostWave.prototype.affect = function(enemy) {
 
 var Shockwave = function(x, y, speed, range, power, angle) {
 	Explosion.call(this, x, y, 0, speed, range, power);
-	this.start = angle - 3.14/6;
-	this.stop = angle + 3.14/6;
+	this.start = angle - Math.PI/6;
+	this.stop = angle + Math.PI/6;
 };
 
 Shockwave.prototype = Object.create(Explosion.prototype);
@@ -98,7 +98,7 @@ Shockwave.prototype.isWithin = function(enemy) {
 	var dist = Math.sqrt(dx * dx + dy * dy);
 	var direction = Math.atan2(dy, dx);
 	
-	if(dist < this.r && direction >= this.start && direction <= this.stop) {
+	if(dist < this.r/2 && direction >= this.start && direction <= this.stop) {
 		return true;
 	}
 	
@@ -204,12 +204,12 @@ Fireball.prototype.draw = function(processing) {
 Fireball.prototype.update = function() {
 	Shot.prototype.update.call(this);
 	
-	if(this.green > 50) {
+	if(this.green > 50) { //change color
 		this.green -= 2 * battleData.speed;
 		this.blue -= 0.2 * battleData.speed;
 	}
 	
-	for(var i = this.particles.length-1; i >= 0; i--) {
+	for(var i = this.particles.length-1; i >= 0; i--) { //change particle size and relative position
 		var particle = this.particles[i];
 		particle.x -= 0.2 * battleData.speed;
 		particle.size *= Math.pow(0.98, battleData.speed);
@@ -639,13 +639,9 @@ Electrocutor.prototype.draw = function(processing) {
 	processing.strokeWeight(2);
 	var x_flag = 1;
 	var y_flag = 1;
-	for(var t = 0; t < 4; t++) {
-		if(t % 2 === 1) {
-			x_flag *= -1;
-		}
-		else {
-			y_flag *= -1;
-		}
+	for(var t = 0; t < 4; t++) { //this '4' is for [ left top, right top, right bottom, left bottom]
+		if(t % 2 === 1) { x_flag *= -1; } //negate x property for t = 1 and 3
+		else { y_flag *= -1; } //negate y property for t = 0 and 2
 		for(var i = 0;i < this.current.length-1; i++) {
 			processing.line(this.current[i].x * x_flag, this.current[i].y * y_flag,
 							this.current[i+1].x * x_flag, this.current[i+1].y * y_flag);

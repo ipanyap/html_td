@@ -54,3 +54,74 @@ Result.prototype.draw = function(processing) {
 	
 	processing.popMatrix();
 };
+
+
+/*
+	Class for settings display during the game.
+*/
+var Menu = function(x, y) {
+	this.x = x;
+	this.y = y;
+	this.width = 400;
+	this.height = 300;
+	
+	this.buttons = [
+		new Button (0, -100, 150, 50, "RESUME", new TextImage(20, "Resume Game", [255, 255, 255])),
+		new Button (0, 0, 150, 50, "RESTART", new TextImage(20, "Restart Game", [255, 255, 255])),
+		new Button (0, 100, 150, 50, "EXIT", new TextImage(20, "Exit Game", [255, 255, 255]))
+	];
+	
+	this.show = false;
+};
+
+Menu.prototype.draw = function(processing) {
+	processing.fill(0, 0, 0);
+	
+	processing.pushMatrix();
+	processing.translate(this.x, this.y);
+	
+	processing.rect(-this.width/2, -this.height/2, this.width, this.height); //dark background
+	
+	for(var i = 0; i < this.buttons.length; i++) {
+		this.buttons[i].draw(processing);
+	}
+	
+	processing.popMatrix();
+};
+
+
+/*
+	Class for announcement display during the game.
+*/
+var Announcement = function(x, y) {
+	this.x = x;
+	this.y = y;
+	this.width = 400;
+	this.height = 300;
+	
+	this.title = "";
+	this.message = "";
+	this.image = null;
+	
+	this.ok_button = new Button (0, 100, 150, 50, "OK", new TextImage(20, "OK", [255, 255, 255]));
+	
+	this.show = false;
+};
+
+Announcement.prototype.draw = function(processing) {
+	processing.fill(0, 0, 0);
+	
+	processing.pushMatrix();
+	processing.translate(this.x, this.y);
+	
+	processing.rect(-this.width/2, -this.height/2, this.width, this.height); //dark background
+	
+	processing.fill(255, 255, 255);
+	processing.text(this.title, -50, -90, 200, 200);
+	processing.textLeading(20);
+	processing.text(this.message, -170, -10, 240, 200);
+	
+	ok_button.draw(processing);
+	
+	processing.popMatrix();
+};
