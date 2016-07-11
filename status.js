@@ -1,21 +1,19 @@
 
 
-var FormationView = function(x, y) {
-	this.x = x;
-	this.y = y;
-	this.width = 400;
-	this.height = 400;
-	
-	this.show = false;
-	
-	this.buttons = [];
-	this.photo = null;
-	this.name = "N/A";
-	this.description = "No data";
-	this.selection = 0;
+var waveView = {
+	x : 600,
+	y : 240,
+	width : 400,
+	height : 400,
+	show : false,
+	buttons : [],
+	photo : null,
+	name : "N/A",
+	description : "No data",
+	selection : 0
 };
 
-FormationView.prototype.draw = function(processing) {
+waveView.draw = function(processing) {
 	processing.fill(0, 0, 0);
 	
 	processing.pushMatrix();
@@ -52,7 +50,7 @@ FormationView.prototype.draw = function(processing) {
 	processing.popMatrix();
 };
 
-FormationView.prototype.select = function(id) {
+waveView.select = function(id) {
 	this.selection = id;
 	var enemy = this.buttons[id].image.get();
 	this.photo = new enemy(-120, 90);
@@ -62,7 +60,7 @@ FormationView.prototype.select = function(id) {
 	this.description = enemyData[this.buttons[id].image.name].description;
 };
 
-FormationView.prototype.setData = function(wave) {
+waveView.setData = function(wave) {
 	this.buttons.splice(0, this.buttons.length);
 	
 	for(var i = 0; i < wave.length; i++) {
@@ -78,24 +76,24 @@ FormationView.prototype.setData = function(wave) {
 /*
 	Check if mouse pointer is within view area.
 */
-FormationView.prototype.isMouseInside = function(mouseX, mouseY) {
+waveView.isMouseInside = function(mouseX, mouseY) {
 	return Math.abs(mouseX - this.x) < this.width/2 && Math.abs(mouseY - this.y) < this.height/2;
 }
 
 /*
 	Class for game status panel.
 */
-var StatusPanel = function(x, y, width, height) {
-	this.x = x;
-	this.y = y;
-	this.width = width;
-	this.height = height;
-	
-	this.wave_button = new Button (700, this.height/2, 30, 30, "Wave", new IconImage("wave"));
-	this.setting_button = new Button (770, this.height/2, 30, 30, "Settings", new IconImage("settings"));
+var statPanel = {
+	x : 0,
+	y : 0,
+	width : 800,
+	height : 40,
+	wave_button : new Button (720, 20, 30, 30, "Wave", new IconImage("wave")),
+	setting_button : new Button (30, 20, 30, 30, "Settings", new IconImage("settings")),
+	speed_button : new Button (770, 20, 30, 30, "Speed", new IconImage("play"))
 };
 
-StatusPanel.prototype.draw = function(processing) {
+statPanel.draw = function(processing) {
 	processing.pushMatrix();
 	processing.translate(this.x, this.y);
 	
@@ -105,6 +103,7 @@ StatusPanel.prototype.draw = function(processing) {
 	
 	this.wave_button.draw(processing);
 	this.setting_button.draw(processing);
+	this.speed_button.draw(processing);
 	
 	processing.popMatrix();
 };
@@ -112,12 +111,13 @@ StatusPanel.prototype.draw = function(processing) {
 /*
 	Check if mouse pointer is within status panel area.
 */
-StatusPanel.prototype.isMouseInside = function(mouseX, mouseY) {
+statPanel.isMouseInside = function(mouseX, mouseY) {
 	return	mouseX > this.x &&
 			mouseX < (this.x + this.width) &&
 			mouseY > this.y &&
 			mouseY < (this.y + this.height);
 }
 
-StatusPanel.prototype.restart = function() {
+statPanel.restart = function() {
+	this.speed_button.image.type = "play";
 };

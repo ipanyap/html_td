@@ -14,8 +14,8 @@ Explosion.prototype.draw = function(processing) {
 	processing.translate(this.x, this.y);
 	
 	processing.strokeWeight(3);
-	processing.stroke(255, 255, 255, 30);
-	processing.fill(250, 250, 250, 20);
+	processing.stroke(255, 155, 155, 30);
+	processing.fill(250, 250, 100, 20);
 	processing.ellipse(0, 0, this.r, this.r);
 	processing.strokeWeight(1);
 	
@@ -344,6 +344,8 @@ var Weapon = function(x, y, data) { //parameter: location and weapon's informati
 	this.level = 0;
 	this.upgrades = data.upgrades;
 	
+	this.shoot_point = 0;
+	
 	this.target_mode = "single";
 };
 
@@ -354,12 +356,19 @@ Weapon.prototype.distance = function(enemy) { //get distance from the enemy
 	return Math.sqrt(dist_x*dist_x + dist_y*dist_y);
 };
 
+Weapon.prototype.canTarget = function(enemy) {
+	if(this.distance(enemy) > this.range) { //outside of sight area
+		return false;
+	}
+	return true;
+};
+
 Weapon.prototype.target = function(enemy) { //rotate the head toward the target
 	this.angle = Math.atan2(enemy.y - this.y, enemy.x - this.x);
 };
 
 Weapon.prototype.attack = function(enemy) { //fire shot toward the target
-	return new Bullet(this.x, this.y, enemy.x - this.x, enemy.y - this.y);
+	//return new Bullet(this.x + this.shoot_point * Math.cos(this.angle), this.y + this.shoot_point * Math.sin(this.angle), enemy.x - this.x, enemy.y - this.y);
 };
 
 Weapon.prototype.upgrade = function() {
@@ -399,6 +408,8 @@ Weapon.prototype.update = function() {
 var Turret = function(x, y) {
 	this.name = "Turret";
 	Weapon.call(this, x, y, weaponData[this.name]);
+	
+	this.shoot_point = 20;
 };
 
 Turret.prototype = Object.create(Weapon.prototype);
@@ -427,7 +438,7 @@ Turret.prototype.draw = function(processing) {
 };
 
 Turret.prototype.attack = function(enemy) { //fire shot toward the target
-	return new Bullet(this.x, this.y, enemy.x - this.x, enemy.y - this.y, this.power, this.speed);
+	return new Bullet(this.x + this.shoot_point * Math.cos(this.angle), this.y + this.shoot_point * Math.sin(this.angle), enemy.x - this.x, enemy.y - this.y, this.power, this.speed);
 };
 
 Turret.prototype.get = function() {
@@ -440,6 +451,8 @@ Turret.prototype.get = function() {
 var Cannon = function(x, y) {
 	this.name = "Cannon";
 	Weapon.call(this, x, y, weaponData[this.name]);
+	
+	this.shoot_point = 18;
 };
 
 Cannon.prototype = Object.create(Weapon.prototype);
@@ -473,17 +486,17 @@ Cannon.prototype.draw = function(processing) {
 	processing.popMatrix();
 };
 
-Cannon.prototype.target = function(enemy) { //rotate the head toward the target
-	if(enemy.domain !== "air") {
-		Weapon.prototype.target.call(this, enemy);
+Cannon.prototype.canTarget = function(enemy) {
+	if(enemy.domain === "air") {
+		return false;
 	}
+	return Weapon.prototype.canTarget.call(this, enemy);
 };
 
 Cannon.prototype.attack = function(enemy) { //fire shot toward the target
-	if(enemy.domain !== "air") {
-		return new Fireball(this.x, this.y, enemy.x - this.x, enemy.y - this.y, this.power, this.speed);
-	}
-	return null;
+	return new Fireball(this.x + this.shoot_point * Math.cos(this.angle),
+						this.y + this.shoot_point * Math.sin(this.angle),
+						enemy.x - this.x, enemy.y - this.y, this.power, this.speed);
 };
 
 Cannon.prototype.get = function() {
@@ -695,6 +708,8 @@ Electrocutor.prototype.get = function() {
 var Laser = function(x, y) {
 	this.name = "Laser";
 	Weapon.call(this, x, y, weaponData[this.name]);
+	
+	this.shoot_point = 20;
 };
 
 Laser.prototype = Object.create(Weapon.prototype);
@@ -724,7 +739,7 @@ Laser.prototype.draw = function(processing) {
 };
 
 Laser.prototype.attack = function(enemy) { //fire shot toward the target
-	return new LaserLight(this.x, this.y, enemy.x - this.x, enemy.y - this.y, this.power, this.speed);
+	return new LaserLight(this.x + this.shoot_point * Math.cos(this.angle), this.y + this.shoot_point * Math.sin(this.angle), enemy.x - this.x, enemy.y - this.y, this.power, this.speed);
 };
 
 Laser.prototype.get = function() {

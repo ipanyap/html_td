@@ -495,15 +495,20 @@ Phantom.prototype.get = function() {
 		...
 	]
 */
-var WaveGenerator = function(waves) {
-	this.waves = waves;
+var waveGenerator = /*function(waves)*/ {
+	waves : undefined,
+	index : 0, //wave index
+	formation : 0, //index of enemy formation
+	ctr : 0 //counter of how many enemies in a formation has appeared
 	
-	this.index = 0; //wave index
-	this.formation = 0; //index of enemy formation
-	this.ctr = 0; //counter of how many enemies in a formation has appeared
+	//this.pause = true;
 };
 
-WaveGenerator.prototype.generateNext = function() { //generate next enemy to send
+waveGenerator.generateNext = function() { //generate next enemy to send
+	if(typeof this.waves === "undefined") { 
+		return false;
+	}
+	
 	if(this.formation < this.waves[this.index].length) {
 		if(this.ctr < this.waves[this.index][this.formation].amount) {
 			var enemy = this.waves[this.index][this.formation].enemy;
@@ -520,7 +525,11 @@ WaveGenerator.prototype.generateNext = function() { //generate next enemy to sen
 	return null; // if no more enemies to send, return null
 };
 
-WaveGenerator.prototype.nextWave = function() { //go to the next wave
+waveGenerator.nextWave = function() { //go to the next wave
+	if(typeof this.waves === "undefined") { 
+		return false;
+	}
+	
 	if (this.index == this.waves.length - 1) { //no more waves
 		return false;
 	}
@@ -532,8 +541,12 @@ WaveGenerator.prototype.nextWave = function() { //go to the next wave
 	return true;
 };
 
-WaveGenerator.prototype.restart = function() { //restart from beginning
+waveGenerator.restart = function(waves) { //restart from beginning
+	if(typeof waves !== "undefined") { //if no waves parameter, use the old wave
+		this.waves = waves;
+	}
 	this.index = 0;
 	this.formation = 0;
 	this.ctr = 0;
+	//this.pause = true;
 };

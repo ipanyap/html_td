@@ -1,7 +1,7 @@
 
 var player = { //structure to track player's information and stats
-	money : 200,
-	health : 5,
+	//money : 200,
+	//health : 0,
 	exp : 0
 };
 
@@ -9,31 +9,33 @@ var player = { //structure to track player's information and stats
 /*
 	Class to keep track of each battle's variables.
 */
-var BattleVars = function() {
-	this.isBuilding = false; //whether player is in weapon building mode
-	this.isUpdating = false; //whether player is in weapon update mode
-	this.weaponSelected = null; //the weapon which is selected to be built
-	this.hp = player.health; //player's current hp during battle
-	this.time = 0; //the battle's time counter
-	this.gameOver = false; //is game over?
-	this.score = 0;
-	this.enemy = [0, 0];
-	this.speed = 1;
+var battleData = {
+	isBuilding : false, //whether player is in weapon building mode
+	isUpdating : false, //whether player is in weapon update mode
+	weaponSelected : null, //the weapon which is selected to be built
+	hp : 0, //player's current hp during battle
+	time : 0, //the battle's time counter
+	gameOver : false, //is game over?
+	score : 0,
+	enemy : [0, 0],
+	speed : 1,
+	money : 0,
+	peacePeriod : true
 };
 
-BattleVars.prototype.reset = function() {
+battleData.reset = function(health, fund) {
 	this.isBuilding = false;
 	this.isUpdating = false;
 	this.weaponSelected = null;
-	this.hp = player.health;
+	this.hp = health;
 	this.time = 0;
 	this.gameOver = false;
 	this.score = 0;
 	this.enemy = [0, 0];
 	this.speed = 1;
+	this.money = fund;
+	this.peacePeriod = true;
 }
-
-var battleData = new BattleVars();
 
 var enemyData = {
 	Quadrone : {

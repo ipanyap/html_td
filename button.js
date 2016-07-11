@@ -148,7 +148,7 @@ Button.prototype.draw = function(processing) {
 	if(this.enabled === false) { //cover the button with dark layer if disabled
 		processing.noStroke();
 		processing.fill(0, 0, 0, 100);
-		processing.rect(-this.width/2, -this.height/2, this.width, this.height, 5);
+		processing.rect(-this.width/2, -this.height/2, this.width + 1, this.height + 1, 5);
 	}
 	
 	processing.popMatrix();
@@ -189,7 +189,7 @@ WeaponButton.prototype.draw = function(processing) {
 	if(this.enabled === false) { //cover the button with dark layer if disabled
 		processing.noStroke();
 		processing.fill(0, 0, 0, 100);
-		processing.rect(-this.width/2, -this.height/2, this.width, this.height, 5);
+		processing.rect(-this.width/2, -this.height/2, this.width + 1, this.height + 1, 5);
 	}
 	
 	processing.popMatrix();
