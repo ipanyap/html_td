@@ -12,6 +12,7 @@ var player = { //structure to track player's information and stats
 var battleData = {
 	isBuilding : false, //whether player is in weapon building mode
 	isUpdating : false, //whether player is in weapon update mode
+	weaponPlanned : null, //the weapon which is planned on a location
 	weaponSelected : null, //the weapon which is selected to be built
 	hp : 0, //player's current hp during battle
 	time : 0, //the battle's time counter
@@ -26,6 +27,7 @@ var battleData = {
 battleData.reset = function(health, fund) {
 	this.isBuilding = false;
 	this.isUpdating = false;
+	this.weaponPlanned = null;
 	this.weaponSelected = null;
 	this.hp = health;
 	this.time = 0;

@@ -59,6 +59,13 @@ IconImage.prototype.draw = function(processing) {
 			label = "$" + this.price;
 		}
 	}
+	else if(this.type === "build") {
+		processing.strokeWeight(5);
+		processing.stroke(255, 255, 255);
+		processing.line(-10, 0, -5, 5);
+		processing.line(-5, 5, 10, -10);
+		label = "Build";
+	}
 	else if(this.type === "cancel") {
 		processing.pushMatrix();
 		processing.translate(0, -5);
@@ -138,7 +145,8 @@ Button.prototype.draw = function(processing) {
 	processing.translate(this.x, this.y);
 	
 	processing.stroke(255, 255, 255);
-	processing.fill(0, 0, 0);
+	//processing.fill(0, 0, 0);
+	processing.noFill();
 	processing.rect(-this.width/2, -this.height/2, this.width, this.height, 5);
 	processing.fill(255, 255, 255);
 	//processing.text(this.caption, this.x , this.y);
@@ -164,6 +172,46 @@ Button.prototype.isMouseInside = function(mouseX, mouseY) {
 	return	Math.abs(mouseX - this.x) < this.width/2 && Math.abs(mouseY - this.y) < this.height/2;
 }
 
+var DialogButton = function(x, y, w, h, caption, image) {
+	Button.call(this, x, y, w, h, caption, image);
+	this.price = "";
+};
+
+DialogButton.prototype = Object.create(Button.prototype);
+
+DialogButton.prototype.setPrice = function(price) {
+	if(price === 0) {
+		this.price = "";
+	}
+	else {
+		this.price = " ($" + price + ")";
+	}
+};
+
+DialogButton.prototype.draw = function(processing) {
+	processing.pushMatrix();
+	processing.translate(this.x, this.y);
+	
+	processing.strokeWeight(2);
+	processing.stroke(150, 150, 255);
+	processing.noFill();
+	processing.rect(-this.width/2, -this.height/2, this.width, this.height);
+	processing.fill(255, 255, 255);
+	//processing.text(this.caption, this.x , this.y);
+
+	processing.textSize(15);
+	processing.textAlign(processing.CENTER, processing.CENTER);
+	processing.text(this.caption + this.price, 0, 0);
+	processing.textAlign(processing.LEFT, processing.BASELINE);
+	
+	if(this.enabled === false) { //cover the button with dark layer if disabled
+		processing.noStroke();
+		processing.fill(0, 0, 0, 100);
+		processing.rect(-this.width/2, -this.height/2, this.width, this.height);
+	}
+	
+	processing.popMatrix();
+};
 
 var WeaponButton = function(x, y, w, h, caption, image) {
 	Button.call(this, x, y, w, h, caption, image);

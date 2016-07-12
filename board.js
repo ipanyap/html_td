@@ -51,7 +51,6 @@ board.restart = function(stage) { //restart the board
 	this.explosions.splice(0, this.explosions.length);
 
 	this.pause = false;
-	//this.skull = new Skull(0, 0, 0, 0);
 };
 
 board.draw = function(processing) {
@@ -94,22 +93,35 @@ board.draw = function(processing) {
 		}
 	}
 	
-	//this.skull.set((this.stage.paths[2][0]+0.5) * this.tile_size, (this.stage.paths[2][1]+0.5) * this.tile_size, (this.stage.paths[0][0]+0.5) * this.tile_size, (this.stage.paths[0][1]+0.5) * this.tile_size);
-	//this.skull.draw(processing);
-	
 	//draw build square
 	if(battleData.isBuilding) {
-		var position = this.pixToBox( { x: processing.mouseX - this.offset.x, y: processing.mouseY - this.offset.y } );
-		
-		processing.stroke(255, 0, 0);
 		processing.strokeWeight(4);
-		processing.fill(0, 0, 0, 0);
-		processing.rect(position.x * this.tile_size, position.y * this.tile_size, this.tile_size, this.tile_size);
+		processing.noFill();
+		
+		if(battleData.weaponPlanned === null) {
+			var position = this.pixToBox( { x: processing.mouseX - this.offset.x, y: processing.mouseY - this.offset.y } );
+			processing.stroke(255, 0, 0);
+			processing.rect(position.x * this.tile_size, position.y * this.tile_size, this.tile_size, this.tile_size);
+		}
+		else {
+			var position = this.pixToBox( { x: battleData.weaponPlanned.x, y : battleData.weaponPlanned.y } );
+			
+			processing.stroke(0, 255, 0);
+			processing.rect(position.x * this.tile_size, position.y * this.tile_size, this.tile_size, this.tile_size);
+			
+			battleData.weaponPlanned.draw(processing);
+			processing.stroke(0, 255, 0);
+		}
+		
+		var d = battleData.weaponSelected.range * 2; //range diameter
+		processing.strokeWeight(2);
+		processing.fill(0, 0, 0, 100);
+		processing.ellipse((position.x + 0.5) * this.tile_size, (position.y + 0.5) * this.tile_size, d, d);
 	}
 	else if(battleData.isUpdating) {
 		var position = this.pixToBox( { x: battleData.weaponSelected.x, y: battleData.weaponSelected.y } );
 		
-		processing.stroke(255, 0, 0);
+		processing.stroke(0, 255, 0);
 		processing.fill(0, 0, 0, 0);
 		processing.strokeWeight(4);
 		processing.rect(position.x * this.tile_size, position.y * this.tile_size, this.tile_size, this.tile_size);
@@ -251,15 +263,50 @@ board.draw = function(processing) {
 		}
 	}
 	
-	if(battleData.isUpdating) {
+	/*if(battleData.isBuilding && battleData.weaponPlanned !== null) {
 		actionPanel.draw(processing);
 	}
+	else if(battleData.isUpdating) {
+		actionPanel.draw(processing);
+	}*/
 	
 	processing.popMatrix();
 };
 
-board.addDefense = function(mouseX, mouseY) { //add defense unit on the tile clicked by mouse
+board.planDefense = function(mouseX, mouseY) {
 	var box = this.pixToBox( { x: mouseX - this.offset.x, y : mouseY - this.offset.y } );
+	var pix = this.boxToPix(box, true); //get center point of new defense
+	
+	for(var i = 0; i < this.stage.paths.length; i++) {
+		if(this.stage.paths[i][0] === box.x && this.stage.paths[i][1] === box.y) { //cannot block enemy's path
+			return false;
+		}
+	}
+	
+	for(var i = 0; i < this.defense.length; i++) {
+		if(this.defense[i].x === pix.x && this.defense[i].y === pix.y) { //cannot build on top of existing weapons
+			return false;
+		}
+	}
+	
+	if(Math.abs(base.x - pix.x) <= this.tile_size && Math.abs(base.y - pix.y) <= this.tile_size) { //cannot block our base
+		return false;
+	}
+	
+	if(battleData.weaponPlanned === null) {
+		var weapon = battleData.weaponSelected.get();
+		battleData.weaponPlanned = new weapon(pix.x, pix.y);
+	}
+	else {
+		battleData.weaponPlanned.x = pix.x;
+		battleData.weaponPlanned.y = pix.y;
+	}
+	
+	return true;
+};
+
+board.addDefense = function(/*mouseX, mouseY*/) { //add defense unit on the tile clicked by mouse
+	/*var box = this.pixToBox( { x: mouseX - this.offset.x, y : mouseY - this.offset.y } );
 	var pix = this.boxToPix(box, true); //get center point of new defense
 	
 	for(var i = 0; i < this.stage.paths.length; i++) {
@@ -281,7 +328,8 @@ board.addDefense = function(mouseX, mouseY) { //add defense unit on the tile cli
 	var weapon = battleData.weaponSelected.get();
 	this.defense.push(new weapon(pix.x, pix.y));
 	
-	return true;
+	return true;*/
+	this.defense.push(battleData.weaponPlanned);
 };
 
 board.getDefense = function(mouseX, mouseY) {

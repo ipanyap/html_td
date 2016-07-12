@@ -10,20 +10,14 @@ skull.draw = function(processing) {
 	processing.translate(this.x, this.y);
 	
 	processing.fill(255, 255, 255);
-	//processing.ellipse(0, 0, 55, 55);
 	processing.ellipse(0, 0, 45, 45);
 	
 	processing.fill(10, 10, 10);
-	//processing.ellipse(0, 0, 50, 50);
 	processing.ellipse(0, 0, 40, 40);
 	
 	processing.noStroke();
 	processing.fill(255, 255, 255);
-	//processing.ellipse(0, -5, 35, 35);
-	//processing.rect(-11, 8, 4, 8, 3);
-	//processing.rect(-5, 8, 4, 8, 3);
-	//processing.rect(1, 8, 4, 8, 3);
-	//processing.rect(7, 8, 4, 8, 3);
+	
 	processing.ellipse(0, -3, 30, 30);
 	processing.rect(-9, 8, 3, 6, 2);
 	processing.rect(-4, 8, 3, 6, 2);
@@ -31,16 +25,12 @@ skull.draw = function(processing) {
 	processing.rect(6, 8, 3, 6, 2);
 	
 	processing.fill(10, 10, 10);
-	//processing.ellipse(-8, -5, 10, 10);
-	//processing.ellipse(8, -5, 10, 10);
 	processing.ellipse(-6, -4, 8, 8);
 	processing.ellipse(6, -4, 8, 8);
 	
-	//processing.triangle(0, 0, 3, 5, -3, 5);
 	processing.triangle(0, 2, 3, 6, -3, 6);
 	
 	processing.rotate(this.angle);
-	//processing.triangle(35, 0, 30, 5, 30, -5);
 	processing.triangle(30, 0, 25, 5, 25, -5);
 	
 	processing.popMatrix();

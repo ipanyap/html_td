@@ -296,11 +296,6 @@ var scene = function(processing) {
 	board.restart(Stage[stage_idx]);
 	control.restart();
 	waveGenerator.restart(Stage[stage_idx].waves);
-	//var info = new InfoDialog(400, 300);
-	//var stat = new StatusPanel(0, 0, 800, 40);
-	//var formation = new FormationView(600, 240);
-	//var menu = new Menu(400, 300);
-	//var announcement = new Announcement(400, 300);
 	
 	var isScrolling = false;
 	var enemyIntervalFrame = battleData.time;
@@ -345,51 +340,6 @@ var scene = function(processing) {
 			processing.text("Touch anywhere to start", 300, 500);
 			
 			processing.noLoop();
-		}
-	};
-	
-	selectScene = function() {
-		var startX = 0;
-		
-		processing.mousePressed = function() {
-			startX = processing.mouseX;
-		};
-		
-		processing.mouseDragged = function() {};
-		
-		processing.mouseReleased = function() {
-			if(processing.mouseX - startX > 20) {
-				stage_idx++;
-				stage_idx %= Stage.length;
-			}
-			else if(processing.mouseX - startX < -20) {
-				stage_idx--;
-				if(stage_idx < 0) {
-					stage_idx += Stage.length;
-				}
-			}
-		};
-		
-		processing.mouseClicked = function() {
-			battleScene();
-		};
-		
-		processing.draw = function() {
-			processing.background(0, 0, 0);
-			
-			processing.fill(250, 250, 250);
-			
-			processing.textSize(100);
-			processing.text("Stage " + (stage_idx + 1), 270, 200);
-			
-			for(var i = 0; i < Stage.length; i++) {
-				if(i === stage_idx) {
-					processing.ellipse(400 - (Stage.length-1)/2 * 40 + i * 40, 500, 8, 8);
-				}
-				else {
-					processing.ellipse(400 - (Stage.length-1)/2 * 40 + i * 40, 500,5, 5);
-				}
-			}
 		}
 	};
 	
@@ -535,44 +485,69 @@ var scene = function(processing) {
 			}
 			
 			//process clicks that happen within information dialog area
-			if(infoDialog.show === true) {
-				/*if(infoDialog.isMouseInside(processing.mouseX, processing.mouseY)) {
-					//process mouse clicked in the buttons
-					var boxX = processing.mouseX - infoDialog.x;
-					var boxY = processing.mouseY - infoDialog.y;
-					
-					if(infoDialog.close_button.isMouseInside(boxX, boxY) == true) {
-						infoDialog.show = false;
-					}
-				}*/
-				/*infoDialog.show = false;
+			/*if(infoDialog.show === true) {
+				infoDialog.show = false;
 				
-				return; //ignore further processing*/
-			}
+				return; //ignore further processing
+			}*/
 			
 			//process clicks that happen within action panel area
-			if(battleData.isUpdating) {
-				var actX = processing.mouseX - board.offset.x - actionPanel.x;
-				var actY = processing.mouseY - board.offset.y - actionPanel.y;
+			if(battleData.isBuilding && battleData.weaponPlanned !== null) {
+				//var actX = processing.mouseX - board.offset.x - actionPanel.x;
+				//var actY = processing.mouseY - board.offset.y - actionPanel.y;
 				
-				/*if(actionPanel.infoButton.isMouseInside(actX, actY)) {
-					infoDialog.setData();
-					infoDialog.show = true;
-				}*/
-				if(actionPanel.upgradeButton.enabled && actionPanel.upgradeButton.isMouseInside(actX, actY)) {
-					var weapon = battleData.weaponSelected;
-					battleData.money -= weapon.upgrades[weapon.level].price;
-					weapon.upgrade();
-					if(weapon.level < weapon.upgrades.length) {
-						actionPanel.upgradeButton.image.price = weapon.upgrades[weapon.level].price;
-					}
-					else {
-						actionPanel.upgradeButton.image.price = 0;
-					}
+				var actX = processing.mouseX - infoDialog.x;
+				var actY = processing.mouseY - infoDialog.y;
+				
+				//if(actionPanel.buildButton.isMouseInside(actX, actY)) {
+				if(infoDialog.buildButton.isMouseInside(actX, actY)) {
+					//build weapon
+					board.addDefense();
+					battleData.money -= battleData.weaponSelected.price;
+					battleData.isBuilding = false;
+					battleData.weaponSelected = null;
+					battleData.weaponPlanned = null;
 					
 					infoDialog.show = false;
 				}
-				else if(actionPanel.sellButton.isMouseInside(actX, actY)) {
+				//else if(actionPanel.cancelButton.isMouseInside(actX, actY)) {
+				else if(infoDialog.cancelButton.isMouseInside(actX, actY)) {
+					battleData.isBuilding = false;
+					battleData.weaponPlanned = null;
+					battleData.weaponSelected = null;
+					infoDialog.show = false;
+				}
+			}
+			if(battleData.isUpdating) {
+				//var actX = processing.mouseX - board.offset.x - actionPanel.x;
+				//var actY = processing.mouseY - board.offset.y - actionPanel.y;
+				
+				var actX = processing.mouseX - infoDialog.x;
+				var actY = processing.mouseY - infoDialog.y;
+				
+				//if(actionPanel.upgradeButton.enabled && actionPanel.upgradeButton.isMouseInside(actX, actY)) {
+				if(/*infoDialog.upgradeButton.enabled &&*/ infoDialog.upgradeButton.isMouseInside(actX, actY)) {
+					if(infoDialog.upgradeButton.enabled) {
+						var weapon = battleData.weaponSelected;
+						battleData.money -= weapon.upgrades[weapon.level].price;
+						weapon.upgrade();
+						/*if(weapon.level < weapon.upgrades.length) {
+							//actionPanel.upgradeButton.image.price = weapon.upgrades[weapon.level].price;
+							infoDialog.upgradeButton.setPrice(weapon.upgrades[weapon.level].price);
+						}
+						else {
+							//actionPanel.upgradeButton.image.price = 0;
+							infoDialog.upgradeButton.setPrice(0);
+						}*/
+						
+						//infoDialog.show = false;
+						
+						infoDialog.setData();
+					}
+					return;
+				}
+				//else if(actionPanel.sellButton.isMouseInside(actX, actY)) {
+				else if(infoDialog.sellButton.isMouseInside(actX, actY)) {
 					battleData.money += battleData.weaponSelected.value();
 					board.removeDefense(battleData.weaponSelected);
 					
@@ -580,7 +555,6 @@ var scene = function(processing) {
 					battleData.weaponSelected = null;
 					infoDialog.show = false;
 				}
-				//return;
 			}
 			
 			//process clicks that happen within control area
@@ -589,8 +563,8 @@ var scene = function(processing) {
 				var controlX = processing.mouseX - control.x;
 				var controlY = processing.mouseY - control.y;
 				
-				if(battleData.isBuilding /*|| battleData.isUpdating*/) { //control displaying non-weapon buttons
-					/*if(control.info_button.isMouseInside(controlX, controlY)) {
+				/*if(battleData.isBuilding) {
+					if(control.info_button.isMouseInside(controlX, controlY)) {
 						infoDialog.setData();
 						infoDialog.show = true;
 					}
@@ -599,35 +573,10 @@ var scene = function(processing) {
 						battleData.isUpdating = false;
 						battleData.weaponSelected = null;
 						infoDialog.show = false;
-					}*/
-					/*else if(battleData.isUpdating === true) {
-						if(control.upgrade_button.enabled && control.upgrade_button.isMouseInside(controlX, controlY)) {
-							var weapon = battleData.weaponSelected;
-							battleData.money -= weapon.upgrades[weapon.level].price;
-							weapon.upgrade();
-							if(weapon.level < weapon.upgrades.length) {
-								control.upgrade_button.image.price = weapon.upgrades[weapon.level].price;
-							}
-							else {
-								control.upgrade_button.image.price = 0;
-							}
-							
-							//battleData.isUpdating = false;
-							//battleData.weaponSelected = null;
-							infoDialog.show = false;
-						}
-						else if(control.sell_button.isMouseInside(controlX, controlY)) {
-							battleData.money += battleData.weaponSelected.value();
-							board.removeDefense(battleData.weaponSelected);
-							
-							battleData.isUpdating = false;
-							battleData.weaponSelected = null;
-							infoDialog.show = false;
-						}
-					}*/
-				}
+					}
+				}*/
 				//added as part of actionPanel
-				else if(battleData.isUpdating) {
+				/*else*/ if(battleData.isUpdating) {
 				}
 				else { //control displaying weapon buttons
 					for(var i = 0; i < control.weapons.length; i++) {
@@ -637,45 +586,19 @@ var scene = function(processing) {
 							if(button.enabled === true) {
 								battleData.isBuilding = true; //go to build mode
 								battleData.weaponSelected = button.image;
+								
+								if(battleData.weaponPlanned !== null) {
+									var prevWeapon = battleData.weaponPlanned;
+									battleData.weaponPlanned = null;
+									board.planDefense(prevWeapon.x, prevWeapon.y);
+									infoDialog.setData();
+								}
+								
 								break;
 							}
 						}
 					}
 				}
-				
-				/*if(control.pause_button.isMouseInside(controlX, controlY)) {
-					if(control.pause_button.caption === "Pause") {
-						if(control.pause_button.image.type === "pause") {
-							board.pause = true;
-							control.pause_button.image.type = "play";
-						}
-						else if(control.pause_button.image.type === "play") {
-							board.pause = false;
-							control.pause_button.image.type = "pause";
-						}
-					}
-				}*/
-				
-				/*if(control.speed_button.isMouseInside(controlX, controlY)) {
-					if(control.speed_button.image.type === "play") {
-						//waveGenerator.pause = false;
-						battleData.peacePeriod = false;
-						if(battleData.speed === 1) {
-							control.speed_button.image.type = "fast";
-						}
-						else if(battleData.speed === 2) {
-							control.speed_button.image.type = "slow";
-						}
-					}
-					else if(control.speed_button.image.type === "fast") {
-						battleData.speed = 2;
-						control.speed_button.image.type = "slow";
-					}
-					else if(control.speed_button.image.type === "slow") {
-						battleData.speed = 1;
-						control.speed_button.image.type = "fast";
-					}
-				}*/
 				
 				return; //ignore further processing
 			}
@@ -720,18 +643,10 @@ var scene = function(processing) {
 			
 			//finally, process clicks that happen within the board
 			if(battleData.isBuilding) {
-				//build weapon
-				if(board.addDefense(processing.mouseX, processing.mouseY) == true) {
-					/*for(var i = 0; i < control.weapons.length; i++) {
-						if(control.weapons[i].caption === battleData.weaponSelected) {
-							battleData.money -= control.weapons[i].image.price; //apply the cost
-							break;
-						}
-					}*/
-					battleData.money -= battleData.weaponSelected.price;
+				if(board.planDefense(processing.mouseX, processing.mouseY) === true) {
+					//actionPanel.set(battleData.weaponPlanned);
+					infoDialog.setData();
 				}
-				battleData.isBuilding = false;
-				battleData.weaponSelected = null;
 			}
 			else {
 				//select weapon
@@ -739,14 +654,7 @@ var scene = function(processing) {
 				if(weapon !== null && weapon !== battleData.weaponSelected) {
 					battleData.isUpdating = true;
 					battleData.weaponSelected = weapon;
-					actionPanel.set(weapon);
-					/*if(weapon.level < weapon.upgrades.length) {
-						control.upgrade_button.image.price = weapon.upgrades[weapon.level].price;
-					}
-					else {
-						control.upgrade_button.image.price = 0;
-					}
-					control.sell_button.image.price = weapon.value();*/
+					//actionPanel.set(weapon);
 					infoDialog.setData();
 				}
 				else {
@@ -838,7 +746,7 @@ var scene = function(processing) {
 
 			processing.rect(82, 24 - 4, 120 * percent, 7);*/
 			
-			if(battleData.isUpdating) {
+			if( (battleData.isBuilding && battleData.weaponPlanned !== null) || battleData.isUpdating ) {
 				infoDialog.draw(processing);
 			}
 			
