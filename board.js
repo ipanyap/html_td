@@ -294,13 +294,10 @@ board.planDefense = function(mouseX, mouseY) {
 	}
 	
 	if(battleData.weaponPlanned === null) {
-		var weapon = battleData.weaponSelected.get();
-		battleData.weaponPlanned = new weapon(pix.x, pix.y);
+		battleData.enterPlanMode();
 	}
-	else {
-		battleData.weaponPlanned.x = pix.x;
-		battleData.weaponPlanned.y = pix.y;
-	}
+	battleData.weaponPlanned.x = pix.x;
+	battleData.weaponPlanned.y = pix.y;
 	
 	return true;
 };

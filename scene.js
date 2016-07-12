@@ -504,17 +504,13 @@ var scene = function(processing) {
 					//build weapon
 					board.addDefense();
 					battleData.money -= battleData.weaponSelected.price;
-					battleData.isBuilding = false;
-					battleData.weaponSelected = null;
-					battleData.weaponPlanned = null;
 					
+					battleData.enterNormalMode();
 					infoDialog.show = false;
 				}
 				//else if(actionPanel.cancelButton.isMouseInside(actX, actY)) {
 				else if(infoDialog.cancelButton.isMouseInside(actX, actY)) {
-					battleData.isBuilding = false;
-					battleData.weaponPlanned = null;
-					battleData.weaponSelected = null;
+					battleData.enterNormalMode();
 					infoDialog.show = false;
 				}
 			}
@@ -551,8 +547,7 @@ var scene = function(processing) {
 					battleData.money += battleData.weaponSelected.value();
 					board.removeDefense(battleData.weaponSelected);
 					
-					battleData.isUpdating = false;
-					battleData.weaponSelected = null;
+					battleData.enterNormalMode();
 					infoDialog.show = false;
 				}
 			}
@@ -584,14 +579,15 @@ var scene = function(processing) {
 						if(button.isMouseInside(controlX, controlY)) {
 							//var price = control.weapons[i].image.price;
 							if(button.enabled === true) {
-								battleData.isBuilding = true; //go to build mode
-								battleData.weaponSelected = button.image;
+								battleData.enterBuildMode(button.image); //go to build mode
 								
 								if(battleData.weaponPlanned !== null) {
-									var prevWeapon = battleData.weaponPlanned;
-									battleData.weaponPlanned = null;
-									board.planDefense(prevWeapon.x, prevWeapon.y);
-									infoDialog.setData();
+									var currentX = battleData.weaponPlanned.x;
+									var currentY = battleData.weaponPlanned.y
+									battleData.enterPlanMode();
+									if(board.planDefense(currentX, currentY)) {
+										infoDialog.setData();
+									}
 								}
 								
 								break;
@@ -652,14 +648,12 @@ var scene = function(processing) {
 				//select weapon
 				var weapon = board.getDefense(processing.mouseX, processing.mouseY);
 				if(weapon !== null && weapon !== battleData.weaponSelected) {
-					battleData.isUpdating = true;
-					battleData.weaponSelected = weapon;
+					battleData.enterUpdateMode(weapon);
 					//actionPanel.set(weapon);
 					infoDialog.setData();
 				}
 				else {
-					battleData.isUpdating = false;
-					battleData.weaponSelected = null;
+					battleData.enterNormalMode();
 				}
 			}
 			//infoDialog.show = false;

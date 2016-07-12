@@ -37,7 +37,31 @@ battleData.reset = function(health, fund) {
 	this.speed = 1;
 	this.money = fund;
 	this.peacePeriod = true;
-}
+};
+
+battleData.enterBuildMode = function(weapon) {
+	this.isBuilding = true;
+	this.isUpdating = false;
+	this.weaponSelected = weapon;
+};
+
+battleData.enterPlanMode = function() {
+	var weapon = this.weaponSelected.get();
+	this.weaponPlanned = new weapon(0, 0);
+};
+
+battleData.enterUpdateMode = function(weapon) {
+	this.isBuilding = false;
+	this.isUpdating = true;
+	this.weaponSelected = weapon;
+};
+
+battleData.enterNormalMode = function() {
+	this.isBuilding = false;
+	this.isUpdating = false;
+	this.weaponPlanned = null;
+	this.weaponSelected = null;
+};
 
 var enemyData = {
 	Quadrone : {

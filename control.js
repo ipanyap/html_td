@@ -55,6 +55,9 @@ infoDialog.draw = function(processing) {
 infoDialog.setData = function() {
 	if(battleData.isBuilding) {
 		var weapon = battleData.weaponPlanned;
+		if(weapon === null) {
+			return;
+		}
 		this.buildButton.setPrice(weapon.price);
 	}
 	else if(battleData.isUpdating) {
