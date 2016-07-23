@@ -154,16 +154,7 @@ var control = {
 	height : 80,
 	
 	//create weapon buttons
-	weapons : []//,
-	
-	//info_button : new Button (50, 40, 50, 50, "Info", new IconImage("info")),
-	//retreat_button : new Button (150, 40, 50, 50, "Cancel", new IconImage("cancel"))
-	
-	/*upgradeButton : new Button (450, 40, 50, 50, "Upgrade", new IconImage("upgrade")),
-	sellButton : new Button (350, 40, 50, 50, "Sell", new IconImage("sell")),
-	
-	buildButton : new Button (450, 40, 50, 50, "Build", new IconImage("build")),
-	cancelButton : new Button (350, 40, 50, 50, "Cancel", new IconImage("cancel"))*/
+	weapons : []
 };
 
 control.draw = function(processing) {

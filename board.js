@@ -216,7 +216,6 @@ board.draw = function(processing) {
 		else {
 			shot.draw(processing);
 		}
-		//shot = undefined;
 	}
 	
 	//draw enemies
@@ -263,13 +262,6 @@ board.draw = function(processing) {
 		}
 	}
 	
-	/*if(battleData.isBuilding && battleData.weaponPlanned !== null) {
-		actionPanel.draw(processing);
-	}
-	else if(battleData.isUpdating) {
-		actionPanel.draw(processing);
-	}*/
-	
 	processing.popMatrix();
 };
 
@@ -302,30 +294,7 @@ board.planDefense = function(mouseX, mouseY) {
 	return true;
 };
 
-board.addDefense = function(/*mouseX, mouseY*/) { //add defense unit on the tile clicked by mouse
-	/*var box = this.pixToBox( { x: mouseX - this.offset.x, y : mouseY - this.offset.y } );
-	var pix = this.boxToPix(box, true); //get center point of new defense
-	
-	for(var i = 0; i < this.stage.paths.length; i++) {
-		if(this.stage.paths[i][0] === box.x && this.stage.paths[i][1] === box.y) { //cannot block enemy's path
-			return false;
-		}
-	}
-	
-	for(var i = 0; i < this.defense.length; i++) {
-		if(this.defense[i].x === pix.x && this.defense[i].y === pix.y) { //cannot build on top of existing weapons
-			return false;
-		}
-	}
-	
-	if(Math.abs(base.x - pix.x) <= this.tile_size && Math.abs(base.y - pix.y) <= this.tile_size) { //cannot block our base
-		return false;
-	}
-	
-	var weapon = battleData.weaponSelected.get();
-	this.defense.push(new weapon(pix.x, pix.y));
-	
-	return true;*/
+board.addDefense = function() { //add defense unit on the tile clicked by mouse
 	this.defense.push(battleData.weaponPlanned);
 };
 

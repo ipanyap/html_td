@@ -105,6 +105,13 @@ statPanel.draw = function(processing) {
 	this.setting_button.draw(processing);
 	this.speed_button.draw(processing);
 	
+	//print status information
+	processing.fill(255, 255, 255);
+	processing.text("HP: " + battleData.hp, 550, 20, 50, 50);
+	processing.text("$" + battleData.money, 500, 20, 100, 50);
+	processing.text("Wv " + (waveGenerator.index+1) + "/" + waveGenerator.waves.length, 620, 20, 150, 50);
+	processing.text("EXP : " + battleData.score, 300, 20, 150, 50);
+	
 	processing.popMatrix();
 };
 

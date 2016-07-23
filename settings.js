@@ -2,7 +2,8 @@
 var player = { //structure to track player's information and stats
 	//money : 200,
 	//health : 0,
-	exp : 0
+	exp : 0,
+	progress : 0
 };
 
 
@@ -47,7 +48,13 @@ battleData.enterBuildMode = function(weapon) {
 
 battleData.enterPlanMode = function() {
 	var weapon = this.weaponSelected.get();
-	this.weaponPlanned = new weapon(0, 0);
+	if(this.weaponPlanned !== null) {
+		var prevPlan = this.weaponPlanned;
+		this.weaponPlanned = new weapon(prevPlan.x, prevPlan.y);
+	}
+	else {
+		this.weaponPlanned = new weapon(0, 0);
+	}
 };
 
 battleData.enterUpdateMode = function(weapon) {
@@ -61,6 +68,10 @@ battleData.enterNormalMode = function() {
 	this.isUpdating = false;
 	this.weaponPlanned = null;
 	this.weaponSelected = null;
+};
+
+battleData.isPlanning = function() {
+	return this.isBuilding && this.weaponPlanned !== null;
 };
 
 var enemyData = {

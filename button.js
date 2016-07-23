@@ -116,6 +116,14 @@ IconImage.prototype.draw = function(processing) {
 		processing.ellipse(0, 0, 7, 7);
 		processing.popMatrix();
 	}
+	else if(this.type === "left") {
+		processing.triangle(3, -6, 3, 6, -12, 0);
+		processing.rect(0, -3, 12, 6);
+	}
+	else if(this.type === "right") {
+		processing.triangle(-3, -6, -3, 6, 12, 0);
+		processing.rect(-12, -3, 12, 6);
+	}
 	processing.textSize(13);
 	processing.textAlign(processing.CENTER, processing.CENTER);
 	processing.text(label, 0, 15);
@@ -197,7 +205,6 @@ DialogButton.prototype.draw = function(processing) {
 	processing.noFill();
 	processing.rect(-this.width/2, -this.height/2, this.width, this.height);
 	processing.fill(255, 255, 255);
-	//processing.text(this.caption, this.x , this.y);
 
 	processing.textSize(15);
 	processing.textAlign(processing.CENTER, processing.CENTER);

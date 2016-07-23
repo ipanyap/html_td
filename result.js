@@ -16,6 +16,11 @@ var result = {
 	]
 };
 
+result.set = function(win) {
+	this.win = win;
+	this.buttons[1].enabled = win;
+};
+
 result.draw = function(processing) {
 	processing.fill(0, 0, 0);
 	
