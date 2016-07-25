@@ -31,6 +31,9 @@ game.over = function(win) {
 	board.pause = true;
 	if(win) {
 		player.exp += battleData.score;
+		if(this.stage_idx + 1 > player.progress) {
+			player.progress = this.stage_idx + 1;
+		}
 		Memory.save();
 	}
 };
@@ -87,9 +90,6 @@ game.run = function(processing) {
 			else if(result.buttons[1].isMouseInside(resultX, resultY) && result.buttons[1].enabled) { //next stage
 				if(game.stage_idx < Stage.length-1) {
 					game.restart(game.stage_idx + 1); //advance to next stage
-					if(game.stage_idx > player.progress) {
-						player.progress = game.stage_idx;
-					}
 				}
 				else { //reached last stage, quit game and restart
 					game.restart(0);

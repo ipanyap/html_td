@@ -10,9 +10,10 @@ var scene = function(processing) {
 	processing.frameRate( 60 );
 	
 	//load font
-	var font = processing.loadFont("Calibri");
+	//var font = processing.loadFont("Calibri");
 	//var font = processing.loadFont("NEUROPOL.ttf");
-	processing.textFont(font, 20);
+	//processing.textFont(font, 20);
+	processing.textSize(20);
 	
 	start.enterGame = function(processing) {
 		select.run(processing);
@@ -27,6 +28,6 @@ var scene = function(processing) {
 		start.run(processing);
 	};
 	
-	player.exp = Memory.load();
+	Memory.load();
 	start.run(processing);
 };

@@ -1,5 +1,18 @@
 <html>
 	<head>
+		<style>
+			@font-face {
+				font-family: infinium;
+				src: url(neuropol.ttf);
+			}
+			canvas {
+				padding: 0;
+				margin: auto;
+				display: block;
+				width: 800px;
+				font-family: infinium;
+			}
+		</style>
 		<script src="processing.js"></script>
 		<script src="memory.js"></script>
 		<script src="settings.js"></script>
@@ -17,18 +30,10 @@
 		<script src="select.js"></script>
 		<script src="start.js"></script>
 		<script src="main.js"></script>
-		<style>
-			canvas {
-				padding: 0;
-				margin: auto;
-				display: block;
-				width: 800px;
-			}
-		</style>
 	</head>
 	<body>
 		<p><canvas id="canvas1" width="400" height="400"></canvas></p>
-		
+
 		<script>
 			var canvas = document.getElementById("canvas1");
 			var p = new Processing(canvas, scene);

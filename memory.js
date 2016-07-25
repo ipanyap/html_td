@@ -1,7 +1,7 @@
 
 
 var Memory = {
-	cookie_name: "score"
+	cookie_name: "player"
 };
 
 Memory.save = function () {
@@ -11,8 +11,8 @@ Memory.save = function () {
 	}
 
 	if (index === -1) {
-		document.cookie=this.cookie_name+"="+ player.exp +"; expires=Saturday, 30-Jul-2016 05:00:00 GMT";
-		console.log(document.cookie);
+		document.cookie=this.cookie_name+"="+ player.exp + "-" + player.progress + "; expires=Saturday, 30-Jul-2016 05:00:00 GMT";
+		//console.log(document.cookie);
 	}
 };
 
@@ -21,15 +21,17 @@ Memory.load = function () {
 		var index = document.cookie.indexOf(this.cookie_name);
 		if (index != -1) {
 			var namestart = (document.cookie.indexOf("=", index) + 1);
+			var namedash = (documen.cookie.indexOf("-", index));
 			var nameend = document.cookie.indexOf(";", index);
 			if (nameend == -1) {
 				nameend = document.cookie.length;
 			}
-			var value = document.cookie.substring(namestart, nameend);
-			console.log("loaded value " + value);
-			return value;
+			player.exp = document.cookie.substring(namestart, namedash);
+			player.progress = document.cookie.substring(namedash + 1, nameend);
+			//console.log("loaded value " + value);
+			return;
 		}
 	}
-	console.log("nothing loaded");
-	return 0;
+	//console.log("nothing loaded");
+	//return 0;
 };
