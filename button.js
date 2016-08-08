@@ -95,14 +95,14 @@ IconImage.prototype.draw = function(processing) {
 		/*processing.triangle(0, -10, 0, 10, 10, 0);
 		processing.triangle(-8, -10, -8, 10, 2, 0);*/
 		processing.textAlign(processing.CENTER, processing.CENTER);
-		processing.textSize(20);
+		processing.textSize(17);
 		processing.text("1x", 0, 0);
 	}
 	else if(this.type === "slow") {
 		/*processing.triangle(0, -6, 0, 6, 8, 0);
 		processing.triangle(-6, -6, -6, 6, 2, 0);*/
 		processing.textAlign(processing.CENTER, processing.CENTER);
-		processing.textSize(20);
+		processing.textSize(17);
 		processing.text("2x", 0, 0);
 	}
 	else if(this.type === "settings") {
@@ -206,7 +206,7 @@ DialogButton.prototype.draw = function(processing) {
 	processing.rect(-this.width/2, -this.height/2, this.width, this.height);
 	processing.fill(255, 255, 255);
 
-	processing.textSize(15);
+	processing.textSize(12);
 	processing.textAlign(processing.CENTER, processing.CENTER);
 	processing.text(this.caption + this.price, 0, 0);
 	processing.textAlign(processing.LEFT, processing.BASELINE);
@@ -235,7 +235,7 @@ WeaponButton.prototype.draw = function(processing) {
 	processing.rect(-this.width/2, -this.height/2, this.width, this.height, 5);
 	processing.fill(255, 255, 255);
 	//processing.text(this.caption, this.x , this.y);
-	processing.textSize(15);
+	processing.textSize(13);
 	processing.textAlign(processing.CENTER, processing.CENTER);
 	processing.text("$" + this.image.price, 0, 15);
 	processing.textAlign(processing.LEFT, processing.BASELINE);
@@ -265,11 +265,11 @@ EnemyButton.prototype.draw = function(processing) {
 	processing.translate(this.x, this.y);
 	
 	processing.stroke(255, 255, 255);
-	processing.fill(0, 0, 0);
+	processing.noFill();
 	processing.rect(-this.width/2, -this.height/2, this.width, this.height, 5);
 	
 	processing.fill(255, 255, 255);
-	processing.textSize(25);
+	processing.textSize(20);
 	processing.textAlign(processing.CENTER, processing.CENTER);
 	processing.text("x " + this.amount, 50, 0);
 	processing.textAlign(processing.LEFT, processing.BASELINE);

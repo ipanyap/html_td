@@ -88,6 +88,7 @@ Shockwave.prototype.draw = function(processing) {
 	for(var i = this.r; i > 0; i -= 50) {
 		processing.arc(0, 0, i, i, this.start, this.stop);
 	}
+	processing.strokeWeight(1);
 	
 	processing.popMatrix();
 };
@@ -264,6 +265,7 @@ Jolt.prototype.draw = function(processing) {
 		current_y = temp_y;
 	}
 	
+	processing.strokeWeight(1);
 	processing.popMatrix();
 };
 
@@ -377,12 +379,13 @@ Weapon.prototype.upgrade = function() {
 		this.range += this.upgrades[this.level].range;
 		this.power += this.upgrades[this.level].power;
 		this.speed += this.upgrades[this.level].speed;
+		this.price += this.upgrades[this.level].price;
 		this.level++;
 	}
 };
 
 Weapon.prototype.value = function() {
-	return Math.floor(0.75 * this.price);
+	return Math.floor(0.8 * this.price);
 };
 
 Weapon.prototype.drawLevel = function(processing) {

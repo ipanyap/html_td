@@ -14,7 +14,7 @@ start.draw = function(processing) {
 	processing.fill(255, 255, 255);
 	processing.textAlign(processing.CENTER);
 	
-	processing.textSize(80);
+	processing.textSize(60);
 	processing.text(this.title, 400, 400);
 	
 	this.playButton.draw(processing);

@@ -5,6 +5,7 @@
 var board = {
 	tile_size : 40,
 	stage : undefined,
+	position : { x: 0, y: 40 },
 	offset : { x: 0, y: 0 },
 	viewport : { x: 0, y: 40, w: 800, h: 480 },
 	enemies : [],
@@ -70,7 +71,10 @@ board.draw = function(processing) {
 	//draw paths
 	processing.fill(100, 100, 100);
 	for(var i = 0; i < this.stage.paths.length - 0; i++) {
-		processing.rect(this.stage.paths[i][0] * this.tile_size, this.stage.paths[i][1] * this.tile_size, this.tile_size, this.tile_size);
+		var path = this.stage.paths[i];
+		for(var j = 0; j < path.length; j++) {
+			processing.rect(path[j][0] * this.tile_size, path[j][1] * this.tile_size, this.tile_size, this.tile_size);
+		}
 	}
 	
 	base.draw(processing);
@@ -80,16 +84,19 @@ board.draw = function(processing) {
 		var arrow_pos = Math.floor((battleData.time/1.6) % this.tile_size);
 		processing.noStroke();
 		processing.fill(100, 10, 10, 50);
-		for(var i = 0; i < this.stage.paths.length - 1; i++) {
-			var diff_x = this.stage.paths[i+1][0] - this.stage.paths[i][0];
-			var diff_y = this.stage.paths[i+1][1] - this.stage.paths[i][1];
-			
-			processing.pushMatrix();
-			processing.translate(this.boxToPix(this.stage.paths[i][0], true), this.boxToPix(this.stage.paths[i][1], true));
-			processing.rotate(Math.atan2(diff_y, diff_x));
-			
-			processing.triangle(arrow_pos + this.tile_size/8, 0, arrow_pos - this.tile_size/8, -3, arrow_pos - this.tile_size/8, 3);
-			processing.popMatrix();
+		for(var i = 0; i < this.stage.paths.length /*- 1*/; i++) {
+			var path = this.stage.paths[i];
+			for(var j = 0; j < path.length - 1; j++) {
+				var diff_x = path[j+1][0] - path[j][0];
+				var diff_y = path[j+1][1] - path[j][1];
+				
+				processing.pushMatrix();
+				processing.translate(this.boxToPix(path[j][0], true), this.boxToPix(path[j][1], true));
+				processing.rotate(Math.atan2(diff_y, diff_x));
+				
+				processing.triangle(arrow_pos + this.tile_size/8, 0, arrow_pos - this.tile_size/8, -3, arrow_pos - this.tile_size/8, 3);
+				processing.popMatrix();
+			}
 		}
 	}
 	
@@ -224,9 +231,9 @@ board.draw = function(processing) {
 		if(this.pause === false) {
 			enemy.update();
 			if (enemy.x === enemy.dest_x && enemy.y === enemy.dest_y) { //enemy reached current destination
-				if(enemy.step < this.stage.paths.length - 2) { //go to next tile
+				if(enemy.step < this.stage.paths[enemy.path].length - 2) { //go to next tile
 					enemy.step += 1;
-					var next_path = this.stage.paths[enemy.step + 1];
+					var next_path = this.stage.paths[enemy.path][enemy.step + 1];
 					enemy.setDestination(this.boxToPix(next_path[0], true), this.boxToPix(next_path[1], true));
 				}
 				else { //enemy has penetrated our defenses
@@ -270,8 +277,11 @@ board.planDefense = function(mouseX, mouseY) {
 	var pix = this.boxToPix(box, true); //get center point of new defense
 	
 	for(var i = 0; i < this.stage.paths.length; i++) {
-		if(this.stage.paths[i][0] === box.x && this.stage.paths[i][1] === box.y) { //cannot block enemy's path
-			return false;
+		var path = this.stage.paths[i];
+		for(var j = 0; j < path.length; j++) {
+			if(path[j][0] === box.x && path[j][1] === box.y) { //cannot block enemy's path
+				return false;
+			}
 		}
 	}
 	
@@ -319,8 +329,10 @@ board.removeDefense = function(weapon) {
 	}
 };
 
-board.addEnemy = function(enemyObject) { //parameter: constructor to create enemy unit
-	var enemy = new enemyObject(this.boxToPix(this.stage.paths[0][0], true), this.boxToPix(this.stage.paths[0][1], true));
+board.addEnemy = function(enemyObject, pathIndex) { //parameter: constructor to create enemy unit
+	var path = this.stage.paths[pathIndex];
+	var enemy = new enemyObject(this.boxToPix(path[0][0], true), this.boxToPix(path[0][1], true));
+	enemy.path = pathIndex;
 	
 	if(enemy.domain === "land") { //land unit is put at front so it'd be drawn first (will be obscured by air units)
 		this.enemies.push(enemy); //enemies are drawn from index n to 0

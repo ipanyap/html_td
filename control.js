@@ -8,10 +8,10 @@ var infoDialog = {
 	
 	//close_button = new Button (150, -100, 30, 30, "CLOSE", new IconImage("close"));
 	show : false,
-	upgradeButton : new DialogButton (80, 100, 100, 30, "Upgrade", new IconImage("upgrade")),
-	sellButton : new DialogButton (-80, 100, 100, 30, "Sell", new IconImage("sell")),
-	buildButton : new DialogButton (80, 100, 100, 30, "Build", new IconImage("build")),
-	cancelButton : new DialogButton (-80, 100, 100, 30, "Cancel", new IconImage("cancel")),
+	upgradeButton : new DialogButton (80, 100, 110, 30, "Upgrade", new IconImage("upgrade")),
+	sellButton : new DialogButton (-80, 100, 110, 30, "Sell", new IconImage("sell")),
+	buildButton : new DialogButton (80, 100, 110, 30, "Build", new IconImage("build")),
+	cancelButton : new DialogButton (-80, 100, 110, 30, "Cancel", new IconImage("cancel")),
 	
 	weapon : undefined,
 	caption : '',
@@ -45,7 +45,7 @@ infoDialog.draw = function(processing) {
 	processing.textSize(20);
 	processing.fill(255, 255, 255, 150);
 	processing.text(this.caption, -30, -90, 150, 100);
-	processing.textSize(15);
+	processing.textSize(12);
 	processing.textLeading(20);
 	processing.text(this.description, -130, -40, 280, 140);
 	

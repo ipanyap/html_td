@@ -11,9 +11,8 @@ var scene = function(processing) {
 	
 	//load font
 	//var font = processing.loadFont("Calibri");
-	//var font = processing.loadFont("NEUROPOL.ttf");
-	//processing.textFont(font, 20);
-	processing.textSize(20);
+	var font = processing.createFont("neuropol", 20);
+	processing.textFont(font, 20);
 	
 	start.enterGame = function(processing) {
 		select.run(processing);
@@ -30,4 +29,11 @@ var scene = function(processing) {
 	
 	Memory.load();
 	start.run(processing);
+	
+	/*var enemy = new SonicRocket(400, 300, 0, 0, 0, 0);
+	enemy.scale = 4;
+	processing.draw = function() {
+		processing.background(102, 123.5, 127.5);
+		enemy.draw(processing);
+	};*/
 };

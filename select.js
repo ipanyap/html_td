@@ -33,6 +33,9 @@ select.draw = function(processing) {
 	processing.textSize(40);
 	processing.text(this.title, 400, 100);
 	
+	processing.textSize(80);
+	processing.text(this.index + 1, 400, 300);
+	
 	for(var i = 0; i < Stage.length; i++) {
 		var indicator_x = processing.width/2 - 30 * (Math.floor(Stage.length/2) - i);
 		if(i === this.index) {

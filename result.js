@@ -22,24 +22,29 @@ result.set = function(win) {
 };
 
 result.draw = function(processing) {
-	processing.fill(0, 0, 0);
+	processing.fill(0, 0, 0, 180);
+	processing.strokeWeight(1);
+	processing.stroke(150, 150, 255);
 	
 	processing.pushMatrix();
 	processing.translate(this.x, this.y);
 	
 	processing.rect(-this.width/2, -this.height/2, this.width, this.height); //dark background
 	
-	processing.textSize(30);
+	processing.stroke(0, 0, 0);
+	processing.textAlign(processing.CENTER);
+	processing.textSize(25);
 	if(this.win === true) {
 		processing.fill(50, 255, 50);
-		processing.text("MISSION ACCOMPLISHED", -155, -100);
+		processing.text("MISSION ACCOMPLISHED", 0, -100);
 	}
 	else {
 		processing.fill(255, 50, 50);
-		processing.text("MISSION FAILED", -100, -100);
+		processing.text("MISSION FAILED", 0, -100);
 	}
 	
-	processing.textSize(20);
+	processing.textSize(17);
+	processing.textAlign(processing.LEFT);
 	processing.fill(255, 255, 255);
 	processing.text("EXP Gained", -180, -50);
 	processing.text("HP Remaining:", -180, -20);
@@ -80,7 +85,9 @@ var menu = {
 };
 
 menu.draw = function(processing) {
-	processing.fill(0, 0, 0);
+	processing.fill(0, 0, 0, 180);
+	processing.strokeWeight(1);
+	processing.stroke(150, 150, 255);
 	
 	processing.pushMatrix();
 	processing.translate(this.x, this.y);

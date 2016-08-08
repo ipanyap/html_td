@@ -14,7 +14,7 @@ var waveView = {
 };
 
 waveView.draw = function(processing) {
-	processing.fill(0, 0, 0);
+	processing.fill(0, 0, 0, 150);
 	
 	processing.pushMatrix();
 	processing.translate(this.x, this.y);
@@ -42,10 +42,10 @@ waveView.draw = function(processing) {
 	}
 	
 	processing.fill(255, 255, 255);
-	processing.textSize(30);
+	processing.textSize(25);
 	processing.text(this.name, -50, 20, 200, 50);
-	processing.textSize(20);
-	processing.text(this.description, -50, 70, 200, 110);
+	processing.textSize(15);
+	processing.text(this.description, -50, 60, 200, 120);
 	
 	processing.popMatrix();
 };
@@ -107,6 +107,7 @@ statPanel.draw = function(processing) {
 	
 	//print status information
 	processing.fill(255, 255, 255);
+	processing.textSize(15);
 	processing.text("HP: " + battleData.hp, 550, 20, 50, 50);
 	processing.text("$" + battleData.money, 500, 20, 100, 50);
 	processing.text("Wv " + (waveGenerator.index+1) + "/" + waveGenerator.waves.length, 620, 20, 150, 50);

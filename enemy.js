@@ -11,6 +11,7 @@ var Enemy = function(x, y, data) { //parameters: location and enemy's informatio
 	this.angle = 0;
 	this.scale = 1;
 	this.step = -1; //counter for the tile number along the path
+	this.path = 0;
 	
 	this.speed = data.speed;
 	this.reward = data.reward; //money reward if this enemy is destroyed
@@ -102,7 +103,7 @@ Enemy.prototype.drawHealth = function(processing) { //draw HP bar on top of the 
 };
 
 Enemy.prototype.freeze = function(power) {
-	this.freeze_ctr = 300 * power;
+	this.freeze_ctr = 250 * power;
 	this.restitution = 0.5;
 };
 
@@ -388,6 +389,7 @@ SonicRocket.prototype.draw = function(processing) {
 	processing.translate(this.x, this.y);
 	processing.scale(this.scale);
 	
+	processing.strokeWeight(1);
 	var stroke = processing.color(0, 0, 0);
 	if(this.freeze_ctr > 0) {
 		stroke = processing.color(210, 240, 255);
@@ -399,20 +401,23 @@ SonicRocket.prototype.draw = function(processing) {
 	processing.fill(255, 120, 80);
 	processing.ellipse(5, 0, 20, 10); //nose
 	processing.noStroke();
-	processing.rect(-10, -6, 15, 11);
+	//processing.rect(-10, -5, 15, 11);
 	processing.stroke(stroke);
-	processing.line(-10, -5, 5, -5);
-	processing.line(-10, 5, 5, 5);
-	processing.ellipse(-15, 0, 4, 14);
+	//processing.line(-10, -5, 5, -5); //upper neck line
+	//processing.line(-10, 5, 5, 5); //lower neck line
+	processing.ellipse(-15, 0, 4, 12); //booster base
 	processing.noStroke();
-	processing.rect(-15, -7, 12, 13);
+	processing.rect(-15, -6, 12, 12); //booster body
 	processing.stroke(stroke);
-	processing.line(-15, -6, -3, -6);
-	processing.line(-15, 6, -3, 6);
+	processing.line(-15, -6, -3, -6); //upper booster line
+	processing.line(-15, 6, -3, 6); //lower booster line
+	processing.ellipse(-2, 0, 3, 12);
 	processing.ellipse(-2, 0, 3, 10);
 	processing.noStroke();
-	processing.rect(-2, -4, 2, 8);
+	processing.rect(-2, -5, 6, 10);
 	processing.stroke(stroke);
+	processing.line(-2, -5, 5, -5); //upper neck line
+	processing.line(-2, 5, 5, 5); //lower neck line
 	processing.triangle(-12, -4, -5, -4, -14, -12);
 	processing.triangle(-12, 4, -5, 4, -14, 12);
 	
@@ -512,6 +517,7 @@ waveGenerator.generateNext = function() { //generate next enemy to send
 	if(this.formation < this.waves[this.index].length) {
 		if(this.ctr < this.waves[this.index][this.formation].amount) {
 			var enemy = this.waves[this.index][this.formation].enemy;
+			var path = this.waves[this.index][this.formation].path;
 			this.ctr++;
 			
 			if(this.ctr === this.waves[this.index][this.formation].amount) { //move to next formation
@@ -519,7 +525,11 @@ waveGenerator.generateNext = function() { //generate next enemy to send
 				this.ctr = 0; //reset counter
 			}
 			
-			return enemy;
+			if(typeof path === "undefined") {
+				path = 0;
+			}
+			
+			return { enemy: enemy, path: path };
 		}
 	}
 	return null; // if no more enemies to send, return null

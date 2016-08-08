@@ -1,10 +1,6 @@
 <html>
 	<head>
 		<style>
-			@font-face {
-				font-family: infinium;
-				src: url(neuropol.ttf);
-			}
 			canvas {
 				padding: 0;
 				margin: auto;
@@ -14,6 +10,7 @@
 			}
 		</style>
 		<script src="processing.js"></script>
+		<script type="text/javascript" src="font.js"></script>
 		<script src="memory.js"></script>
 		<script src="settings.js"></script>
 		<script src="mover.js"></script>
@@ -35,8 +32,14 @@
 		<p><canvas id="canvas1" width="400" height="400"></canvas></p>
 
 		<script>
-			var canvas = document.getElementById("canvas1");
-			var p = new Processing(canvas, scene);
+			var cfont = new Font(); 
+			cfont.onerror = function(err) { alert(err); }
+			cfont.fontFamily ="neuropol"; 
+			cfont.src = "neuropol.ttf"; 
+			cfont.onload = function() { 
+				var canvas = document.getElementById("canvas1");
+				var p = new Processing(canvas, scene);
+			}
 		</script>
 	</body>
 </html>

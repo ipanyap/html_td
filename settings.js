@@ -76,71 +76,71 @@ battleData.isPlanning = function() {
 
 var enemyData = {
 	Quadrone : {
-		hp : 10,
+		hp : 15,
 		speed : 1,
 		width : 20,
 		height : 20,
-		reward : 10,
+		reward : 8,
 		exp : 1,
 		domain : "land",
 		description : "Four legged standard unit. Easy to destroy."
 	},
 	Hovercraft : {
-		hp : 15,
+		hp : 35,
 		speed : 1.5,
 		width: 25,
 		height : 25,
-		reward : 15,
+		reward : 12,
 		exp : 1,
 		domain : "land",
 		description : "Vehicle that hovers over the ground. Moves easily across hard terrains."
 	},
 	SteelTank : {
-		hp : 80,
+		hp : 120,
 		speed : 0.8,
 		width : 25,
 		height : 25,
-		reward : 30,
+		reward : 20,
 		exp : 1,
 		domain : "land",
 		description : "Ground unit with strong defense but moves slower."
 	},
 	MagmaTank : {
 		hp : 120,
-		speed : 0.5,
+		speed : 0.6,
 		width : 25,
 		height : 25,
-		reward : 40,
+		reward : 30,
 		exp : 1,
 		domain : "land",
 		description : "The next generation of tank. Watch out! This heat radiating vehicle is immune to frost."
 	},
 	EagleJet : {
-		hp : 20,
+		hp : 40,
 		speed : 2,
 		width : 20,
 		height : 25,
-		reward : 25,
+		reward : 15,
 		exp : 1,
 		domain : "air",
 		description : "Standard air unit. Low HP but relatively faster."
 	},
 	SonicRocket : {
 		hp : 40,
-		speed : 4,
+		speed : 3.5,
 		width : 20,
 		height : 25,
-		reward : 35,
+		reward : 25,
 		exp : 1,
 		domain : "air",
 		description : "Faster-than-sound air unit. Difficult to target."
 	},
 	Phantom : {
 		hp : 80,
-		speed : 3,
+		speed : 2.5,
 		width : 20,
 		height : 25,
-		reward : 45,
+		reward : 30,
 		exp : 1,
 		domain : "air",
 		description : "Stealth unit. Fast and hard to detect."
@@ -171,58 +171,58 @@ var shotData = {
 var weaponData = {
 	Turret : {
 		reload_time : 50,
-		range : 120,
-		price : 100,
-		power : 5,
+		range : 80,
+		price : 80,
+		power : 8,
 		speed : 5,
 		upgrades : [
-			{ price : 30, range : 20, reload_time : 5, power : 0, speed : 0 },
-			{ price : 50, range : 20, reload_time : 5, power : 0, speed : 0 },
-			{ price : 80, range : 40, reload_time : 10, power : 1, speed : 1 }
+			{ price : 30, range : 10, reload_time : 5, power : 0, speed : 0 },
+			{ price : 50, range : 10, reload_time : 5, power : 0, speed : 0 },
+			{ price : 100, range : 30, reload_time : 10, power : 2, speed : 1 }
 		],
 		req_exp : 0,
 		description : "Shoots metal bullet to single enemy. The damage of a single bullet is small, but the firing rate is very fast. Upgraded turrets can be very deadly and strong defense."
 	},
 	Cannon : {
 		reload_time : 100,
-		range : 180,
-		price : 120,
+		range : 120,
+		price : 100,
 		power : 15,
 		speed : 2.5,
 		upgrades : [
-			{ price : 40, range : 40, reload_time : 5, power : 2, speed : 0 },
-			{ price : 60, range : 40, reload_time : 10, power : 0, speed : 1 },
-			{ price : 100, range : 40, reload_time : 10, power : 1, speed : 1 }
+			{ price : 40, range : 10, reload_time : 5, power : 2, speed : 0 },
+			{ price : 60, range : 20, reload_time : 10, power : 0, speed : 1 },
+			{ price : 120, range : 40, reload_time : 10, power : 1, speed : 1 }
 		],
 		req_exp : 0,
 		description : "Shoots fireball toward a single target. The fire speed is rather slow, but compensated by great damage and splash impact to nearby enemies.\n\nCannot attack air units."
 	},
 	Frost : {
 		reload_time : 80,
-		range : 60,
-		price : 80,
+		range : 50,
+		price : 60,
 		power : 1,
-		speed : 3,
+		speed : 2,
 		upgrades : [
-			{ price : 20, range : 20, reload_time : 3, power : 0.2, speed : 1 },
-			{ price : 40, range : 40, reload_time : 4, power : 0.2, speed : 2 },
-			{ price : 60, range : 40, reload_time : 5, power : 0.4, speed : 3 }
+			{ price : 20, range : 10, reload_time : 3, power : 0.2, speed : 1 },
+			{ price : 40, range : 20, reload_time : 4, power : 0.2, speed : 2 },
+			{ price : 80, range : 20, reload_time : 5, power : 0.4, speed : 3 }
 		],
 		req_exp : 0,
 		description : "Releases cold freezing air around it, slowing down enemies' movement for a certain period. Does not deal any damage."
 	},
 	Transmitter : {
 		reload_time : 120,
-		range : 120,
-		price : 140,
+		range : 100,
+		price : 160,
 		power : 20,
 		speed : 5,
 		upgrades : [
-			{ price : 50, range : 40, reload_time : 5, power : 2, speed : 2 },
-			{ price : 80, range : 40, reload_time : 10, power : 4, speed : 2 },
-			{ price : 140, range : 20, reload_time : 15, power : 8, speed : 4 }
+			{ price : 50, range : 20, reload_time : 5, power : 2, speed : 2 },
+			{ price : 100, range : 30, reload_time : 10, power : 4, speed : 2 },
+			{ price : 200, range : 40, reload_time : 15, power : 8, speed : 4 }
 		],
-		req_exp : 20,
+		req_exp : 200,
 		description : "Emits destructing shock wave toward the target, dealing great damage to multiple enemies within the area. Highly destructive."
 	},
 	Electrocutor : {
@@ -232,11 +232,11 @@ var weaponData = {
 		power : 40,
 		speed : 8,
 		upgrades : [
-			{ price : 60, range : 10, reload_time : 10, power : 4, speed : 0 },
+			{ price : 80, range : 10, reload_time : 10, power : 4, speed : 0 },
 			{ price : 100, range : 10, reload_time : 20, power : 4, speed : 0 },
 			{ price : 180, range : 30, reload_time : 30, power : 8, speed : 1 }
 		],
-		req_exp : 50,
+		req_exp : 400,
 		description : "Delivers electrical jolts toward all targets within its area. However, it needs significant amount of time to recharge its energy after shot."
 	},
 	Laser : {
@@ -246,11 +246,11 @@ var weaponData = {
 		power : 60,
 		speed : 6,
 		upgrades : [
-			{ price : 80, range : 20, reload_time : 30, power : 5, speed : 0 },
-			{ price : 140, range : 20, reload_time : 60, power : 10, speed : 0 },
-			{ price : 220, range : 40, reload_time : 90, power : 15, speed : 1 }
+			{ price : 100, range : 20, reload_time : 30, power : 5, speed : 0 },
+			{ price : 160, range : 20, reload_time : 60, power : 10, speed : 0 },
+			{ price : 300, range : 40, reload_time : 90, power : 15, speed : 1 }
 		],
-		req_exp : 100,
+		req_exp : 800,
 		description : "Shoots powerful laser beams with great damage. The laser beam penetrates through everything on its way, damaging enemies along the line. Very slow reload time."
 	}
 };

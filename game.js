@@ -23,6 +23,8 @@ game.restart = function(stage_idx) {
 		waveGenerator.restart(Stage[stage_idx].waves);
 	}
 	battleData.reset(Stage[this.stage_idx].health, Stage[this.stage_idx].fund);
+	
+	board.offset.y = statPanel.height;
 };
 
 game.over = function(win) {
@@ -271,8 +273,9 @@ game.run = function(processing) {
 		
 		if(!battleData.gameOver) {
 			if(!battleData.peacePeriod && battleData.time - game.enemyIntervalFrame >= 60) { //generate enemy
-				var enemy = waveGenerator.generateNext();
-				if(enemy === null) { //no more enemy in a wave
+				var next = waveGenerator.generateNext();
+				//var enemy = waveGenerator.generateNext();
+				if(next === null) { //no more enemy in a wave
 					if(board.enemies.length === 0) { //wait until all current wave's enemies disappear
 						var success = waveGenerator.nextWave();
 						if(success) { //next wave
@@ -286,7 +289,7 @@ game.run = function(processing) {
 					}
 				}
 				else { //spawn next enemy
-					board.addEnemy(enemy);
+					board.addEnemy(next.enemy, next.path);
 					game.enemyIntervalFrame = battleData.time;
 				}
 			}
